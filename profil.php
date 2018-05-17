@@ -1,11 +1,16 @@
-<?php session_start(); /* First start a session */ ?>
+<?php session_start(); /* First start a session */
+
+include ("fonctions.php");
+include ("configuration.php");
+ ?>
+
 <!doctype html>
 <html>
 <head>
   <meta charset ="utf-8"/>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <title> Moke reddit </title>
+  <title> <?php echo blogTitle(); ?>  </title>
 </head>
 <body>
 
@@ -29,11 +34,16 @@
            <h1 class="col-md-2"> </h1>
            <h1 class="col-md-8">
              <div class="form-group">
-               <label for="addPost"></label>
+               
+		<label for="id_user"></label><input type="text" class="form-control" id="id_user" name="id_user" aria-describedby="emailHelp" placeholder="id_user"/>
 
-               <input type="text" class="form-control" id="AddPost" aria-describedby="emailHelp" placeholder="Add your POST">
 
-             </div>
+		<label for="lien"></label><input type="url" class="form-control" id="lien" name="lien" aria-describedby="emailHelp" placeholder="lien" required/>
+
+		<hr size=4 width=66% align=center >
+
+		<label for="contenu_post"></label><input type="text" class="form-control" id="contenu_post" name="contenu_post" aria-describedby="emailHelp" placeholder="contenu_post" required/>
+
           </h1>
         </section>
 
@@ -42,6 +52,17 @@
     </form>
   </div>
 
+<?php
+
+if(isset($_GET['lien'])){
+
+$id_user=$_GET['id_user'];
+$lien=$_GET['lien'];
+$contenu_post=$_GET['contenu_post'];
+
+ajoutPost($id_user,$lien,$contenu_post);
+}
+?>
 
 
 
