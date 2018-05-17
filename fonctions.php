@@ -100,4 +100,37 @@ function pseudo_id($id){
   return $a['pseudo'];
 }
 
+// // Donne le nombre de likes sur un post
+// function nbe_like($id_post){
+//   $con=connection();
+//   $query=mysqli_query($con,"SELECT COUNT(*) FROM votes WHERE id_post='".$id_post."' AND type="like"");
+//   $a=mysqli_fetch_assoc($query);
+//   mysqli_close($con);
+//   return $a;
+// }
+//
+// //Donne le nombre de dislike d'un post
+// function nbe_dislike($id_post){
+//   $con=connection();
+//   $query=mysqli_query($con,"SELECT COUNT(*) FROM votes WHERE id_post='".$id_post."' AND type="dislike"");
+//   $a=mysqli_fetch_assoc($query);
+//   mysqli_close($con);
+//   return $a;
+// }
+//
+// //Ajoute un like à un post
+// function add_like($id_user,$id_post){
+//   $con = connection();
+//   $stmt = mysqli_prepare($con, "INSERT INTO votes (id_user,id_post,type) VALUES ('".$id_user."','".$id_post."','like')");
+//   mysqli_stmt_execute($stmt);
+//   mysqli_close($con);
+// }
+//
+// //Ajoute un dislike à un post
+// function add_dislike($id_user,$id_post){
+//   $con = connection();
+//   $stmt = mysqli_prepare($con, "INSERT INTO votes (id_user,id_post,type) VALUES ('".$id_user."','".$id_post."','dislike')");
+//   mysqli_stmt_execute($stmt);
+//   mysqli_close($con);
+// }
  ?>

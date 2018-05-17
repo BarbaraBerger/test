@@ -33,7 +33,7 @@ if (!isset($_SESSION['mail'])) { //si ob ouvre le site sans être connecté, on 
 
   <div class="alert alert-success">
     <h1> <p class="text-center"> Ajouter un post </p> </h1>
-    <form action="accueil.php" method="get">
+    <form action="accueil.php" method="post">
         <section class='row'>
            <h1 class="col-md-2"> </h1>
            <h1 class="col-md-8">
@@ -57,11 +57,11 @@ if (!isset($_SESSION['mail'])) { //si ob ouvre le site sans être connecté, on 
   </div>
 <?php
 
-if(isset($_GET['lien'])){
+if(isset($_POST['lien'])){
 
-$id_user=$_GET['id_user'];
-$lien=$_GET['lien'];
-$contenu_post=$_GET['contenu_post'];
+$id_user=$_POST['id_user'];
+$lien=$_POST['lien'];
+$contenu_post=$_POST['contenu_post'];
 
 ajoutPost($_SESSION['id_user'],$lien,$contenu_post);
 }
@@ -96,9 +96,9 @@ foreach ($posts as $post){
 	echo "<pre>";
 	echo "$date";
 	echo "<br>$pseudo a publié</br>";
-  echo "<a href='post.php?id=$id_post'> Voir le post </a>";
 	echo "\"$lien\"";
 	echo "<br>\"$contenu_post\"</br>";
+  echo "<a href='post.php?id=$id_post'> Voir le post </a>";
 	echo "</pre>";
 }
 
@@ -132,9 +132,9 @@ foreach($assoc as $assocs){
   echo "<pre>";
   echo "$date";
 	echo "<br>$pseudo a publié</br>";
-  echo "<a href='post.php?id=$id_post'> Voir le post </a>";
 	echo "\"$lien\"";
 	echo "<br>\"$contenu_post\"</br>";
+  echo "<a href='post.php?id=$id_post'> Voir le post </a>";
   echo "</pre>";
 }
 

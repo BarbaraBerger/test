@@ -21,3 +21,9 @@
   echo "</pre>";
 
 ?>
+<html>
+<body>
+<h2  class="col-md-2"> <a href= "accueil.php"> Retour à l'accueil </a> </h2>
+<h2  class="col-md-2"> <a href= "profil.php"> Profil </a> </h2>
+</body>
+</html>

@@ -16,8 +16,6 @@ $q2 = "CREATE TABLE IF NOT EXISTS `posts`(
     `lien` VARCHAR(255) CHECK (lien like 'www.%'),
     `contenu_post` text,
     `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `nb_like` int CHECK (nb_like > 0),
-    `nb_dislike` int CHECK (nb_dislike > 0),
     PRIMARY KEY (`id_post`),
     FOREIGN KEY (`id_user`) REFERENCES `utilisateurs`(`id_user`)
 )ENGINE=InnoDB;";
@@ -27,12 +25,21 @@ $q3 = "CREATE TABLE IF NOT EXISTS `commentaires`(
   `id_user` int(11) NOT NULL,
   `id_post`int(11) NOT NULL,
   `contenu_comm` text,
-  `nb_like` int CHECK (nb_like > 0),
-  `nb_dislike` int CHECK (nb_dislike > 0),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_user`) REFERENCES `utilisateurs`(`id_user`),
   FOREIGN KEY (`id_post`) REFERENCES `posts`(`id_post`)
 )ENGINE=InnoDB;";
+
+$q4 = "CREATE TABLE IF NOT EXISTS `votes`(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `id_post`int(11) NOT NULL,
+  `type` text,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`id_user`) REFERENCES `utilisateurs`(`id_user`),
+  FOREIGN KEY (`id_post`) REFERENCES `posts`(`id_post`)
+)ENGINE=InnoDB;";
+
 
 echo "Connexion au serveur.";
 
@@ -51,6 +58,11 @@ echo mysqli_error($c);
 
 echo "Création de la table commentaires.";
 mysqli_query($c, $q3);
+echo mysqli_info($c);
+echo mysqli_error($c);
+
+echo "Création de la table votes.";
+mysqli_query($c, $q4);
 echo mysqli_info($c);
 echo mysqli_error($c);
 
