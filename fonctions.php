@@ -80,4 +80,24 @@ function affiche_post_recent(){
   mysqli_close($con);
   return $assoc;
 }
+
+// Affiche le post dont l'id correspond
+function affiche_post($id){
+  $con=connection();
+  $stmt = mysqli_query($con,"SELECT * FROM posts WHERE id_post='".$id."'");
+  $assoc=mysqli_fetch_all($stmt, MYSQLI_ASSOC);
+  mysqli_free_result($stmt);
+  mysqli_close($con);
+  return $assoc;
+}
+
+// Trouve l'utilisateur correspondant à l'id
+function pseudo_id($id){
+  $con=connection();
+  $query=mysqli_query($con,"SELECT * FROM utilisateurs WHERE id_user='".$id."'");
+  $a=mysqli_fetch_assoc($query);
+  mysqli_close($con);
+  return $a['pseudo'];
+}
+
  ?>

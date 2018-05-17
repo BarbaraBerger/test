@@ -39,9 +39,6 @@ if (!isset($_SESSION['mail'])) { //si ob ouvre le site sans être connecté, on 
            <h1 class="col-md-8">
              <div class="form-group">
 
-		<label for="id_user"></label><input type="text" class="form-control" id="id_user" name="id_user" aria-describedby="emailHelp" placeholder="id_user"/>
-
-
 		<label for="lien"></label><input type="url" class="form-control" id="lien" name="lien" aria-describedby="emailHelp" placeholder="lien" required/>
 
 		<hr size=4 width=66% align=center >
@@ -66,7 +63,7 @@ $id_user=$_GET['id_user'];
 $lien=$_GET['lien'];
 $contenu_post=$_GET['contenu_post'];
 
-ajoutPost($id_user,$lien,$contenu_post);
+ajoutPost($_SESSION['id_user'],$lien,$contenu_post);
 }
 ?>
 
@@ -89,6 +86,7 @@ foreach ($posts as $post){
 
 	$id_user = $post['id_user'];
   $id_post = $post['id_post'];
+  $pseudo = pseudo_id($id_user);
 	$date = $post['date'];
 	$lien = $post['lien'];
 	$contenu_post = $post['contenu_post'];
@@ -97,7 +95,7 @@ foreach ($posts as $post){
 <?php
 	echo "<pre>";
 	echo "$date";
-	echo "<br>$id_user a publié</br>";
+	echo "<br>$pseudo a publié</br>";
   echo "<a href='post.php?id=$id_post'> Voir le post </a>";
 	echo "\"$lien\"";
 	echo "<br>\"$contenu_post\"</br>";
@@ -124,13 +122,23 @@ echo "<pre>";
 foreach($assoc as $assocs){
   $id_post = $assocs['id_post'];
   $id_user = $assocs['id_user'];
+  $pseudo = pseudo_id($id_user);
   $lien = $assocs['lien'];
   $contenu_post = $assocs['contenu_post'];
   $date = $assocs['date'];
-  echo "$id_post  $id_user $lien $contenu_post $date";
-
+  ?>
+   <hr size=4 width=66% align=center >
+  <?php
+  echo "<pre>";
+  echo "$date";
+	echo "<br>$pseudo a publié</br>";
+  echo "<a href='post.php?id=$id_post'> Voir le post </a>";
+	echo "\"$lien\"";
+	echo "<br>\"$contenu_post\"</br>";
+  echo "</pre>";
 }
-echo "</pre>";
+
+
 
 ?>
    </section>
