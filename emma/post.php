@@ -41,7 +41,7 @@ echo "<h2  class='col-md-2'> <a href= 'modifier.php?id=$id_post'> Modifier </a> 
 
 <?php
 
-echo "<h2  class='col-md-2'> <a href= 'suppression.php?id=$id_post'> <button type='submit' class='btn btn-primary'> Supprimer </button></a> </h2>";
+echo "<h2  class='col-md-2'> <a href= 'suppression.php?id=$id_post'> <button type='submit' class='btn btn-primary'> Supprimer le post</button></a> </h2>";
 ?>
 
 <div class="alert alert-success">
@@ -80,7 +80,7 @@ ajoutCom($_SESSION['id_user'],$id_post,$contenu_comm);
 $comms=affiche_com_post($_SESSION['id_user'],$id_post);
 
 foreach ($comms as $com){
-
+	$id_com = $com['id'];
 	$id_user = $com['id_user'];
   $id_post = $com['id_post'];
   $pseudo = pseudo_id($id_user);
@@ -92,8 +92,14 @@ foreach ($comms as $com){
 <?php
 echo "<br>$pseudo a publié</br>";
 echo "<br>\"$contenu_comm\"</br>";
+
+if($_SESSION['id_user'] == $id_user){
+echo "<h2  class='col-md-2'> <a href= 'suppression_com.php?id=$id_com'> <button type='submit' class='btn btn-primary'> Supprimer le commentaire</button></a> </h2>";
+}
+
 }
 ?>
+
 
 
 </body>

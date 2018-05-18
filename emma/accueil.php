@@ -59,7 +59,7 @@ if (!isset($_SESSION['mail'])) { //si ob ouvre le site sans être connecté, on 
 
 if(isset($_POST['lien'])){
 
-$id_user=$_POST['id_user'];
+
 $lien=$_POST['lien'];
 $contenu_post=$_POST['contenu_post'];
 
