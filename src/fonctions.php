@@ -188,6 +188,37 @@ function suppr_tous_comm($id_post){
   mysqli_close($con);
 }
 
+//Ajoute un like à un post
+function add_vote_post($id_user,$id_post,$type){
+  $con = connection();
+  $stmt = mysqli_prepare($con, "INSERT INTO vote_post (id_user,id_post,type) VALUES ('".$id_user."','".$id_post."','".$type."')");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+
+//Retire les votes sur un post
+function remove_vote_post($id_post){
+  $con = connection();
+  $stmt = mysqli_prepare($con, "DELETE FROM vote_post WHERE id_post = '".$id_post."'");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+
+//Ajoute un like à un commentaire
+function add_vote_comm($id_user,$id_post,$id_comm,$type){
+  $con = connection();
+  $stmt = mysqli_prepare($con, "INSERT INTO vote_commentaire (id_user,id_post,id_comm,type) VALUES ('".$id_user."','".$id_post."','".$id_comm."','".$type."')");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+
+//Retire les votes sur un commentaire
+function remove_vote_comm($id_comm){
+  $con = connection();
+  $stmt = mysqli_prepare($con, "DELETE FROM vote_commentaire WHERE id_comm = '".$id_comm."'");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
 // // Donne le nombre de likes sur un post
 // function nbe_like($id_post){
 //   $con=connection();
@@ -206,13 +237,7 @@ function suppr_tous_comm($id_post){
 //   return $a;
 // }
 //
-// //Ajoute un like à un post
-// function add_like($id_user,$id_post){
-//   $con = connection();
-//   $stmt = mysqli_prepare($con, "INSERT INTO votes (id_user,id_post,type) VALUES ('".$id_user."','".$id_post."','like')");
-//   mysqli_stmt_execute($stmt);
-//   mysqli_close($con);
-// }
+
 //
 // //Ajoute un dislike à un post
 // function add_dislike($id_user,$id_post){

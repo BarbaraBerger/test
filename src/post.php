@@ -20,6 +20,8 @@ foreach ($assoc as $assocs){
   echo "$id_user $pseudo $lien $contenu_post $date";
 }
 echo "</pre>";
+echo "<a href= 'vote_post.php?id=$id_post&type=like'> <button type='submit' class='btn btn-secondary'> Upvote </button></a> <a href= 'vote_post.php?id=$id_post&type=dislike'> <button type='submit' class='btn btn-secondary'> Downvote </button> </a>";
+
 ?>
 <?php
 if(isset($_POST['contenu_comm'])){
@@ -70,16 +72,16 @@ if(isset($_POST['contenu_comm'])){
       $id_post = $com['id_post'];
       $pseudo = pseudo_id($id_user);
     	$contenu_comm = $com['contenu_comm'];
-    ?>
-    <hr size=4 width=66% align=center >
-    <?php
+
     echo "<br>$pseudo a publié</br>";
     echo "<br>\"$contenu_comm\"</br>";
+    echo "<a href= 'vote_comm.php?idp=$id_post&type=like&idc=$id_comm'> <button type='submit' class='btn btn-secondary'> Upvote </button></a> <a href= 'vote_comm.php?idp=$id_post&type=dislike'&idc=$id_comm> <button type='submit' class='btn btn-secondary'> Downvote </button> </a><br>";
+    echo "<hr size=4 width=66% align=center >";
     if($_SESSION['id_user'] == $id_user){
-      echo "<h2  class='col-md-2'> <a href= 'suppression_com.php?id=$id_comm'> <button type='submit' class='btn btn-primary'> Supprimer le commentaire</button></a> </h2>";
-      echo "<h2  class='col-md-2'> <a href= 'modifier_comm.php?id=$id_comm'> <button type='submit'> Modification </a> </h2>";
-    }
-    }
-    ?>
+      echo "<a href= 'suppression_com.php?id=$id_comm'> <button type='submit' class='btn btn-primary'> Supprimer le commentaire</button></a> <a href= 'modifier_comm.php?id=$id_comm'> <button type='submit' class='btn btn-primary'> Modification </button> </a>";
+    } ?>
+    <hr size=4 width=66% align=center >
+
+  <?php } ?>
   </body>
 </html>

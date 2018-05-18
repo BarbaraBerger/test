@@ -64,6 +64,7 @@ include ("configuration.php");
                     $posts=affiche_my_post($_SESSION['id_user']);
                     ?>
                     <?php
+
                     foreach ($posts as $post){
                     	$id_user = $post['id_user'];
                       $id_post = $post['id_post'];
