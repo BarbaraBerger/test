@@ -1,10 +1,9 @@
 <?php
-    session_start();
+session_start();
 include("configuration.php");
 include("fonctions.php");
 
 if( isset($_GET['password']) && isset($_GET['mail'])){
-
   if(login($_GET['mail'],$_GET['password'])){
     $_SESSION['mdp'] = $_GET['password'];
     $_SESSION['mail'] = $_GET['mail'];
@@ -13,17 +12,13 @@ if( isset($_GET['password']) && isset($_GET['mail'])){
     $_SESSION['id_user'] = id_user($_SESSION['mail']);
     $_SESSION['pseudo'] = pseudo($_SESSION['mail']);
     header('Location: accueil.php');
-
   } else {
-    if (isset($_GET['password']) && isset($_GET['mail'])){
-      $msg = "Adresse mail et/ou mot de passe incorrect(s)";
-  }
+      if (isset($_GET['password']) && isset($_GET['mail'])){
+        $msg = "Adresse mail et/ou mot de passe incorrect(s)";
+      }
+    }
 }
-}
-
-
 ?>
-
 
 <html>
   <head>
@@ -32,7 +27,7 @@ if( isset($_GET['password']) && isset($_GET['mail'])){
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title> <?php echo blogTitle(); ?> </title>
   </head>
-
+  
   <body>
     <span class="border border-white "></span>
     <div class="alert alert-success">

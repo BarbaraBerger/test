@@ -11,13 +11,13 @@ $q1 = "CREATE TABLE IF NOT EXISTS `utilisateurs` (
 ) ENGINE=InnoDB;";
 
 $q2 = "CREATE TABLE IF NOT EXISTS `posts`(
-    `id_post`int(11) NOT NULL AUTO_INCREMENT,
-    `id_user` int(11) NOT NULL,
-    `lien` VARCHAR(255) CHECK (lien like 'www.%'),
-    `contenu_post` text,
-    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id_post`),
-    FOREIGN KEY (`id_user`) REFERENCES `utilisateurs`(`id_user`)
+  `id_post`int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `lien` VARCHAR(255) CHECK (lien like 'www.%'),
+  `contenu_post` text,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_post`),
+  FOREIGN KEY (`id_user`) REFERENCES `utilisateurs`(`id_user`)
 )ENGINE=InnoDB;";
 
 $q3 = "CREATE TABLE IF NOT EXISTS `commentaires`(

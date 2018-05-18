@@ -11,7 +11,6 @@ Fonctionnalités implémentées :
 
 Fonctionnalités non implémentées :
 	--> like/dislike
-	--> favoris
 
 
 Architecture

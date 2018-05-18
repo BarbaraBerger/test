@@ -11,25 +11,23 @@ function blogTitle() {
   return $GLOBALS['blogTitle'];
 }
 
-// Fonction qui permet de se loger avec le mail et le mdp qu'on rentre
+// Vérifie que le mail est dans la table et le mdp correspond
 function login($mail,$mdp) {
-    $con=connection();
-    $q = mysqli_query($con, 'SELECT * FROM utilisateurs');
-
-    while($tab = mysqli_fetch_assoc($q))
-    {
-      if($mdp == $tab['mdp'] && $mail== $tab['mail']){
-        mysqli_free_result($q);
-        mysqli_close($con);
-        return 1;
-      }
-    }
+  $con=connection();
+  $q = mysqli_query($con, 'SELECT * FROM utilisateurs');
+  while($tab = mysqli_fetch_assoc($q)){
+    if($mdp == $tab['mdp'] && $mail== $tab['mail']){
       mysqli_free_result($q);
       mysqli_close($con);
-      return 0;
+      return 1;
+    }
+  }
+  mysqli_free_result($q);
+  mysqli_close($con);
+  return 0;
 }
 
-// Ajouter un utilisateur à la base de données
+// Ajoute un utilisateur à la base de données
 function ajoutUtilisateur($pseudo,$mail,$mdp) {
   $con = connection();
   if (strlen($pseudo) < 4) {
@@ -53,7 +51,7 @@ function ajoutPost($id_user, $lien, $contenu_post) {
 }
 
 
-// Récupère l'id de l'utilisateur
+// Récupère l'id de l'utilisateur correspondant au mail
 function id_user($mail) {
   $con=connection();
   $query=mysqli_query($con,"SELECT * FROM utilisateurs WHERE mail='".$_GET['mail']."'");
@@ -62,7 +60,7 @@ function id_user($mail) {
   return $a['id_user'];
 }
 
-// Récupère l'id de l'utilisateur
+// Récupère le pseudo de l'utilisateur correspondant au mail
 function pseudo($mail) {
   $con=connection();
   $query=mysqli_query($con,"SELECT * FROM utilisateurs WHERE mail='".$_GET['mail']."'");
@@ -100,7 +98,17 @@ function pseudo_id($id){
   return $a['pseudo'];
 }
 
-// Trouve l'id de l'utilisateur correspond au post
+// Affiche mes posts
+function affiche_my_post($id){
+  $con = connection();
+  $stmt = mysqli_query($con, "SELECT * FROM posts WHERE id_user = '".$id."' ORDER BY date DESC");
+  $assoc=mysqli_fetch_all($stmt, MYSQLI_ASSOC);
+  mysqli_free_result($stmt);
+  mysqli_close($con);
+  return $assoc;
+}
+
+// Trouve l'id de l'utilisateur correspondant au post
 function id_user_post($id){
   $con=connection();
   $query = mysqli_query($con,"SELECT * FROM posts WHERE id_post='".$id."'");
@@ -116,6 +124,70 @@ function suppression_post($id) {
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
 }
+
+// Modifie un post
+function modifie_contenu_post($contenu_post,$id_post) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "UPDATE posts SET contenu_post= '".$contenu_post."' WHERE id_post = '".$id_post."'");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+// Ajoute un commentaire
+function ajoutCom($id_user, $id_post, $contenu_comm) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "INSERT INTO commentaires (id_user,id_post,contenu_comm) VALUES ('".$id_user."','".$id_post."','".$contenu_comm."')");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+// Affiche les commentaires d'un post
+function affiche_com_post($id){
+  $con = connection();
+  $stmt = mysqli_query($con, "SELECT * FROM commentaires WHERE id_post = '".$id."' ORDER BY id_comm DESC");
+  $assoc=mysqli_fetch_all($stmt, MYSQLI_ASSOC);
+  mysqli_free_result($stmt);
+  mysqli_close($con);
+  return $assoc;
+}
+// Supprime un commentaire
+function suppression_comm($id) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "DELETE FROM commentaires WHERE id_comm = '".$id."'");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+
+// Modifie un commentaire
+function modifie_contenu_comm($contenu_comm,$id_comm) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "UPDATE commentaires SET contenu_comm= '".$contenu_comm."' WHERE id_comm = '".$id_comm."'");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+// Trouve l'id de l'utilisateur correspond au commentaire
+function id_user_com($id){
+  $con = connection();
+  $query = mysqli_query($con, "SELECT * FROM commentaires WHERE id_comm = '".$id."'");
+  $a=mysqli_fetch_assoc($query);
+  mysqli_close($con);
+return $a['id_user'];
+}
+// Trouve l'id du post correspond au commentaire
+function id_post_com($id){
+  $con = connection();
+  $query = mysqli_query($con, "SELECT * FROM commentaires WHERE id_comm = '".$id."'");
+  $a=mysqli_fetch_assoc($query);
+  mysqli_close($con);
+return $a['id_post'];
+}
+
+//Supprime tous les commentaires d'un post
+function suppr_tous_comm($id_post){
+  $con = connection();
+  $stmt = mysqli_prepare($con, "DELETE FROM commentaires WHERE id_post = '".$id_post."'");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+
 // // Donne le nombre de likes sur un post
 // function nbe_like($id_post){
 //   $con=connection();
