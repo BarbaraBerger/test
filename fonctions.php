@@ -100,6 +100,25 @@ function pseudo_id($id){
   return $a['pseudo'];
 }
 
+// Trouve l'id de l'utilisateur correspond au post
+function id_user_post($id){
+
+}
+
+
+
+
+
+
+
+
+// Supprime un post
+function suppression_post($id) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "DELETE FROM posts WHERE id_post = '".$id."'");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
 // // Donne le nombre de likes sur un post
 // function nbe_like($id_post){
 //   $con=connection();

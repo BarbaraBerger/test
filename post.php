@@ -5,7 +5,10 @@
     $id_post = $_GET['id'];
   }
 
-  echo "$id_post";
+// if (isset($_GET['suppr'])) {
+//   suppression_post($_GET['suppr']));
+//   header('Location: accueil.php');
+// }
 
   $assoc = affiche_post($id_post);
 
@@ -25,5 +28,6 @@
 <body>
 <h2  class="col-md-2"> <a href= "accueil.php"> Retour à l'accueil </a> </h2>
 <h2  class="col-md-2"> <a href= "profil.php"> Profil </a> </h2>
+<?php echo "<a href='suppression.php?id=$id_post'> Supprimer </a>"; ?>
 </body>
 </html>
