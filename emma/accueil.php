@@ -65,6 +65,7 @@ $contenu_post=$_POST['contenu_post'];
 
 ajoutPost($_SESSION['id_user'],$lien,$contenu_post);
 }
+
 ?>
 
 <section class='row'>

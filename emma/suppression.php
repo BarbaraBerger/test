@@ -1,6 +1,10 @@
 <?php  session_start();
   include("fonctions.php");
 echo "salut";
-$idpost=83;
-supprimerPost($idpost);
+$id_post=$_GET['id'];
+
+
+suppression_post($id_post);
+header('Location: accueil.php');
 ?>
+

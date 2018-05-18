@@ -110,14 +110,39 @@ function affiche_my_post($iduser){
   return $assoc;
 }
 
-// Supprimer un post
-function supprimerPost($id_post) {
+// Supprime un post
+function suppression_post($id) {
   $con = connection();
-  $stmt = mysqli_prepare($con, "DROP FROM posts WHERE id_post ='".$id_post."'");
+  $stmt = mysqli_prepare($con, "DELETE FROM posts WHERE id_post = '".$id."'");
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
 }
 
+// Modifie un post
+function modifie_contenu_post($contenu_post,$id_post) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "UPDATE posts SET contenu_post= '".$contenu_post."' WHERE id_post = '".$id_post."'");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+
+// Ajoute un commentaire
+function ajoutCom($id_user, $id_post, $contenu_comm) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "INSERT INTO commentaires (id_user,id_post,contenu_comm) VALUES ('".$id_user."','".$id_post."','".$contenu_comm."')");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+
+// Affiche les commentaires d'un post
+function affiche_com_post($id_user,$id_post){
+  $con = connection();
+  $stmt = mysqli_query($con, "SELECT * FROM commentaires WHERE id_post = '".$id_post."' ORDER BY id DESC");
+  $assoc=mysqli_fetch_all($stmt, MYSQLI_ASSOC);
+  mysqli_free_result($stmt);
+  mysqli_close($con);
+  return $assoc;
+}
 
 // // Donne le nombre de likes sur un post
 // function nbe_like($id_post){
