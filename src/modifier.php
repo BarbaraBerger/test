@@ -9,6 +9,7 @@ if(isset($_POST['modification'])){
   modifie_contenu_post($contenu_post,$id_post);
   header('Location:post.php?id='.$id_post);
 }
+
 ?>
 
 <html>
@@ -23,6 +24,12 @@ if(isset($_POST['modification'])){
     <form method="post">
       <label for="contenu_post"></label><input type="text" class="form-control" id="modification" name='modification' placeholder="Entrez votre nouveau contenu" required/>
       <center><input type="submit" class="btn btn-primary" value="Enregistrer modification" /></center>
+
+<?php
+echo "<a href= 'vote_post.php?id=$id_post'> <button type='submit' class='btn btn-secondary'> Annuler </button></a> ";
+?>
+
+
     </form>
   </body>
 </html>
