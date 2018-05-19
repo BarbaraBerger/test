@@ -1,17 +1,15 @@
-<?php session_start(); /* First start a session */
-
+<?php session_start();
 include ("fonctions.php");
 include ("configuration.php");
-
-
+if (!isset($_SESSION['mail'])) {
+  header('Location: login.php');
+}
 if(isset($_GET['lien'])){
   $lien=$_GET['lien'];
   $contenu_post=$_GET['contenu_post'];
   ajoutPost($_SESSION['id_user'],$lien,$contenu_post);
 }
-
 ?>
-
 
 <html>
   <head>
@@ -48,8 +46,8 @@ if(isset($_GET['lien'])){
       if (isset($_GET['ok'])){
         echo "<center> <div id='suppr'> Votre post a bien été supprimé ! </div></center>";
       }
-      ?> <br>
-
+      ?>
+      <br>
       <section class='row'>
         <section class="col-6">
           <header>
@@ -98,15 +96,16 @@ if(isset($_GET['lien'])){
               $contenu_post = $post['contenu_post'];
               ?>
           <section class="jumbotron" id='5'>
-              <?php echo "<div id='pseudo'>$pseudo a partagé : </div>";
-              echo "<div id='date'>$date</div>";
-              echo "<div id='post'><a href='$lien'>$lien</a></div>";
-              echo "<div id='description'>$contenu_post</div><br>";
-              echo "<div id='votes'> 3 upvotes - 2 downvotes </div><br>";
-              echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
-              ?>
+          <?php
+            echo "<div id='pseudo'>$pseudo a partagé : </div>";
+            echo "<div id='date'>$date</div>";
+            echo "<div id='post'><a href='$lien'>$lien</a></div>";
+            echo "<div id='description'>$contenu_post</div><br>";
+            echo "<div id='votes'> 3 upvotes - 2 downvotes </div><br>";
+            echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
+          ?>
           </section>
-              <?php } ?>
+          <?php } ?>
         </section>
       </section>
     </div>

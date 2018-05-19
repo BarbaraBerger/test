@@ -54,7 +54,6 @@ $q5 = "CREATE TABLE IF NOT EXISTS `vote_commentaire`(
 
 $q6 = "INSERT INTO utilisateurs (pseudo,mail,mdp) VALUES ('bobby','bob@bob','bobby66')";
 $q7 = "INSERT INTO utilisateurs (pseudo,mail,mdp) VALUES ('maxou','max@max','maxou59')";
-
 $q8 = "INSERT INTO posts (id_user,lien,contenu_post) VALUES ('2','http://google.fr','Allez checker ce site !')";
 $q9 = "INSERT INTO commentaires (id_user,id_post,contenu_comm) VALUES ('1','1','Excellent site pour faire des recherches !')";
 $q10 = "INSERT INTO vote_commentaire (id_user,id_post,id_comm,type) VALUES ('2','1','1','like')";

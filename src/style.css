@@ -13,6 +13,18 @@ h2 {
   color: #074473;
 }
 
+h3 {
+  color: #2e61d1;
+  text-align: center;
+  font-size: 45px;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 20px;
+    color: #074473;
+}
+
 .msg{
   font-size: 12px;
 }
@@ -44,7 +56,7 @@ a {
 
 #suppr {
   font-size: 25px;
-  color: #99dda5;
+  color: #46a858;
 }
 
 .badge {
@@ -58,15 +70,50 @@ a {
   width: 450px;
 }
 
+.jumbotron[id='6'] {
+  background: #706f77;
+  height: 300px;
+  display: table-cell;
+  vertical-align: middle;
+  width: 1000px;
+}
+
+.jumbotron[id='7'] {
+  background :#4b8dbc;
+  height: 300px;
+}
+
+.jumbotron[id='8'] {
+  background :#adabb5;
+  height: 280px;
+}
+
 #pseudo {
   font-size: 22px;
   color: #f97572;
 font-weight: bold;
 }
 
+#pseudop {
+  font-size: 25px;
+  color: #f97572;
+font-weight: bold;
+}
+
+#pseudoc {
+  font-size: 20px;
+  color: white;
+}
+
 #date {
   font-style: italic;
   font-size: 8px;
+  color: white;
+}
+
+#datep {
+  font-style: italic;
+  font-size: 11px;
   color: white;
 }
 
@@ -76,18 +123,37 @@ font-weight: bold;
 text-align: center;
 }
 
+#descriptionp {
+  font-size: 18px;
+  color:white;
+text-align: center;
+}
+
 #post {
   text-decoration: underline;
   font-size: 20px;
   color: white;
   text-align: center;
+}
 
+#postp {
+  text-decoration: underline;
+  font-size: 23px;
+  color: white;
+  text-align: center;
 }
 
 #votes {
   color : #48474f;
   text-align: center;
   font-weight: bold;
+}
+
+#votesp {
+  color : #48474f;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 #bienvenue {
@@ -97,9 +163,54 @@ text-align: center;
   font-weight: bold;
 }
 
-h3 {
-  color: #2e61d1;
-  text-align: center;
-  font-size: 45px;
-  font-weight: bold;
+
+
+.btns {
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  padding: 10px 20px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.upvote {
+  border-color: #4CAF50;
+  color: green;
+}
+
+.upvote:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.downvote {
+  border-color: #f44336;
+  color: red;
+}
+
+.downvote:hover {
+    background-color: #f44336;
+    color: white;
+}
+
+.annulevote {
+  border-color: #ff9800;
+  color: orange;
+}
+
+.annulevote:hover {
+    background-color: #ff9800;
+    color: white;
+}
+
+.btnp {
+  border: 2px solid black;
+  padding: 10px 20px;
+  font-size: 12px;
+  border-radius: 5px;
+  border-color: #9da0a5;
+  color: white;
+  background-color: #9da0a5;
 }

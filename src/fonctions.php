@@ -11,7 +11,7 @@ function blogTitle() {
   return $GLOBALS['blogTitle'];
 }
 
-// Vérifie que le mail est dans la table et le mdp correspond
+// Vérification de la présence du mail dans la table utilisateurs et la correspondance du mdp
 function login($mail,$mdp) {
   $con=connection();
   $q = mysqli_query($con, 'SELECT * FROM utilisateurs');
@@ -27,7 +27,7 @@ function login($mail,$mdp) {
   return 0;
 }
 
-// Ajoute un utilisateur à la base de données
+// Ajout d'un utilisateur à la table utilisateurs
 function ajoutUtilisateur($pseudo,$mail,$mdp) {
   $con = connection();
   if (strlen($pseudo) < 4) {
@@ -42,7 +42,7 @@ function ajoutUtilisateur($pseudo,$mail,$mdp) {
   return 1;
 }
 
-// Ajoute un post
+// Ajout d'un post dans la table posts
 function ajoutPost($id_user, $lien, $contenu_post) {
   $con = connection();
   $stmt = mysqli_prepare($con, "INSERT INTO posts (id_user,lien,contenu_post) VALUES ('".$id_user."','".$lien."','".$contenu_post."')");
@@ -51,7 +51,7 @@ function ajoutPost($id_user, $lien, $contenu_post) {
 }
 
 
-// Récupère l'id de l'utilisateur correspondant au mail
+// Récupération de l'id de l'utilisateur correspondant au mail dans la table utilisateurs
 function id_user($mail) {
   $con=connection();
   $query=mysqli_query($con,"SELECT * FROM utilisateurs WHERE mail='".$_GET['mail']."'");
@@ -60,7 +60,7 @@ function id_user($mail) {
   return $a['id_user'];
 }
 
-// Récupère le pseudo de l'utilisateur correspondant au mail
+//Récupération du pseudo de l'utilisateur correspondant au mail dans la table utilisateurs
 function pseudo($mail) {
   $con=connection();
   $query=mysqli_query($con,"SELECT * FROM utilisateurs WHERE mail='".$_GET['mail']."'");
@@ -69,7 +69,7 @@ function pseudo($mail) {
   return $a['pseudo'];
 }
 
-// Affiche les posts récents (du + récent au - récent)
+// Affichage des posts du + récent au - récent
 function affiche_post_recent(){
   $con = connection();
   $stmt = mysqli_query($con, "SELECT * FROM posts WHERE date >= DATE_SUB(NOW(),INTERVAL 24 HOUR) ORDER BY date DESC");
@@ -79,7 +79,7 @@ function affiche_post_recent(){
   return $assoc;
 }
 
-// Affiche le post dont l'id correspond
+//Affichage du post dont l'id correspond dans la table posts
 function affiche_post($id){
   $con=connection();
   $stmt = mysqli_query($con,"SELECT * FROM posts WHERE id_post='".$id."'");
@@ -89,7 +89,7 @@ function affiche_post($id){
   return $assoc;
 }
 
-// Trouve l'utilisateur correspondant à l'id
+//Récupération du pseudo correspondant à l'id dans la table utilisateurs
 function pseudo_id($id){
   $con=connection();
   $query=mysqli_query($con,"SELECT * FROM utilisateurs WHERE id_user='".$id."'");
@@ -98,7 +98,7 @@ function pseudo_id($id){
   return $a['pseudo'];
 }
 
-// Affiche mes posts
+//Affichage des posts d'un utilisateur selon son id
 function affiche_my_post($id){
   $con = connection();
   $stmt = mysqli_query($con, "SELECT * FROM posts WHERE id_user = '".$id."' ORDER BY date DESC");
@@ -108,7 +108,7 @@ function affiche_my_post($id){
   return $assoc;
 }
 
-// Trouve l'id de l'utilisateur correspondant au post
+//Récupération de l'id de l'utilisateur correspondant au post
 function id_user_post($id){
   $con=connection();
   $query = mysqli_query($con,"SELECT * FROM posts WHERE id_post='".$id."'");
@@ -117,7 +117,7 @@ function id_user_post($id){
   return $a['id_user'];
 }
 
-// Supprime un post
+//Suppression d'un post
 function suppression_post($id) {
   $con = connection();
   $stmt = mysqli_prepare($con, "DELETE FROM posts WHERE id_post = '".$id."'");
@@ -125,21 +125,21 @@ function suppression_post($id) {
   mysqli_close($con);
 }
 
-// Modifie un post
+//Modification d'un post
 function modifie_contenu_post($contenu_post,$id_post) {
   $con = connection();
   $stmt = mysqli_prepare($con, "UPDATE posts SET contenu_post= '".$contenu_post."' WHERE id_post = '".$id_post."'");
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
 }
-// Ajoute un commentaire
+//Ajout d'un commentaire
 function ajoutCom($id_user, $id_post, $contenu_comm) {
   $con = connection();
   $stmt = mysqli_prepare($con, "INSERT INTO commentaires (id_user,id_post,contenu_comm) VALUES ('".$id_user."','".$id_post."','".$contenu_comm."')");
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
 }
-// Affiche les commentaires d'un post
+//Affichage des commentaires d'un post
 function affiche_com_post($id){
   $con = connection();
   $stmt = mysqli_query($con, "SELECT * FROM commentaires WHERE id_post = '".$id."' ORDER BY id_comm DESC");
@@ -148,7 +148,7 @@ function affiche_com_post($id){
   mysqli_close($con);
   return $assoc;
 }
-// Supprime un commentaire
+//Suppression d'un commentaire
 function suppression_comm($id) {
   $con = connection();
   $stmt = mysqli_prepare($con, "DELETE FROM commentaires WHERE id_comm = '".$id."'");
@@ -156,14 +156,15 @@ function suppression_comm($id) {
   mysqli_close($con);
 }
 
-// Modifie un commentaire
+//Modification d'un commentaire
 function modifie_contenu_comm($contenu_comm,$id_comm) {
   $con = connection();
   $stmt = mysqli_prepare($con, "UPDATE commentaires SET contenu_comm= '".$contenu_comm."' WHERE id_comm = '".$id_comm."'");
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
 }
-// Trouve l'id de l'utilisateur correspond au commentaire
+
+//Récupération de l'id de l'utilisateur correspondant au commentaire
 function id_user_com($id){
   $con = connection();
   $query = mysqli_query($con, "SELECT * FROM commentaires WHERE id_comm = '".$id."'");
@@ -171,7 +172,8 @@ function id_user_com($id){
   mysqli_close($con);
 return $a['id_user'];
 }
-// Trouve l'id du post correspond au commentaire
+
+//Récupération de l'id du post correspondant au commentaire
 function id_post_com($id){
   $con = connection();
   $query = mysqli_query($con, "SELECT * FROM commentaires WHERE id_comm = '".$id."'");
@@ -180,7 +182,16 @@ function id_post_com($id){
 return $a['id_post'];
 }
 
-//Supprime tous les commentaires d'un post
+//Récupération du contenu du commentaire correspondant à l'id
+function id_com($id){
+  $con = connection();
+  $query = mysqli_query($con, "SELECT * FROM commentaires WHERE id_comm = '".$id."'");
+  $a=mysqli_fetch_assoc($query);
+  mysqli_close($con);
+return $a['contenu_comm'];
+}
+
+//Suppression de tous les commentaires d'un post
 function suppr_tous_comm($id_post){
   $con = connection();
   $stmt = mysqli_prepare($con, "DELETE FROM commentaires WHERE id_post = '".$id_post."'");
@@ -188,7 +199,7 @@ function suppr_tous_comm($id_post){
   mysqli_close($con);
 }
 
-//Ajoute un vote à un post
+//Ajout d'un vote à un post
 function add_vote_post($id_user,$id_post,$type){
   $con = connection();
   $stmt = mysqli_prepare($con, "INSERT INTO vote_post (id_user,id_post,type) VALUES ('".$id_user."','".$id_post."','".$type."')");
@@ -196,7 +207,7 @@ function add_vote_post($id_user,$id_post,$type){
   mysqli_close($con);
 }
 
-//Supprime tous les votes sur un post
+//Suppression de tous les votes d'un post
 function remove_vote_post($id_post){
   $con = connection();
   $stmt = mysqli_prepare($con, "DELETE FROM vote_post WHERE id_post = '".$id_post."'");
@@ -204,7 +215,7 @@ function remove_vote_post($id_post){
   mysqli_close($con);
 }
 
-//Ajoute un vote à un commentaire
+//Ajout d'un vote à un commentaire
 function add_vote_comm($id_user,$id_post,$id_comm,$type){
   $con = connection();
   $stmt = mysqli_prepare($con, "INSERT INTO vote_commentaire (id_user,id_post,id_comm,type) VALUES ('".$id_user."','".$id_post."','".$id_comm."','".$type."')");
@@ -212,7 +223,7 @@ function add_vote_comm($id_user,$id_post,$id_comm,$type){
   mysqli_close($con);
 }
 
-//Supprime tous les votes sur un commentaire
+//Suppression de tous les votes d'un commentaire
 function remove_vote_comm($id_comm){
   $con = connection();
   $stmt = mysqli_prepare($con, "DELETE FROM vote_commentaire WHERE id_comm = '".$id_comm."'");
@@ -220,7 +231,7 @@ function remove_vote_comm($id_comm){
   mysqli_close($con);
 }
 
-// Annule un vote d'un utilisateur sur un post
+//Annulation du vote d'un utilisateur sur un post
 function suppr_vote_post($id_post,$id_user){
   $con = connection();
   $stmt = mysqli_prepare($con, "DELETE FROM vote_post WHERE id_post = '".$id_post."' AND id_user = '".$id_user."'");
@@ -228,7 +239,7 @@ function suppr_vote_post($id_post,$id_user){
   mysqli_close($con);
 }
 
-// Regarde si l'utilisateur a déjà donné ce type de vote là
+//Check si l'utilisateur a déjà fait le même vote sur un post
 function verif_meme_type_vote_post($id_user,$id_post,$type) {
   $con=connection();
   $q = mysqli_query($con, 'SELECT * FROM vote_post');
@@ -244,7 +255,7 @@ function verif_meme_type_vote_post($id_user,$id_post,$type) {
   return 0;
 }
 
-// Regarde si l'utilisateur a déjà voté mais un vote different
+//Check si l'utilisateur a déjà voté mais un vote différent sur un post
 function verif_different_type_vote_post($id_user,$id_post,$type) {
   $con=connection();
   $q = mysqli_query($con, 'SELECT * FROM vote_post');
@@ -260,7 +271,7 @@ function verif_different_type_vote_post($id_user,$id_post,$type) {
   return 0;
 }
 
-// Modifie un dislike en un like sur un post
+//Modification d'un dislike en un like sur un post
 function modifie_dislike_en_like_post($id_user,$id_post) {
   $con = connection();
   $stmt = mysqli_prepare($con, "UPDATE vote_post SET type= 'like' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."'" );
@@ -269,17 +280,15 @@ function modifie_dislike_en_like_post($id_user,$id_post) {
 
 }
 
-// Modifie un like en un dislike sur un post
+//Modification d'un like en un dislike sur un post
 function modifie_like_en_dislike_post($id_user,$id_post) {
   $con = connection();
   $stmt = mysqli_prepare($con, "UPDATE vote_post SET type= 'dislike' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."'" );
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
-
 }
 
-
-// Annule un vote d'un utilisateur sur un commentaire
+//Annulation du vote d'un utilisateur sur un commentaire
 function suppr_vote_comm($id_comm,$id_post,$id_user){
   $con = connection();
   $stmt = mysqli_prepare($con, "DELETE FROM vote_commentaire WHERE id_post = '".$id_post."' AND id_user = '".$id_user."' AND id_comm = '".$id_comm."'");
@@ -287,7 +296,7 @@ function suppr_vote_comm($id_comm,$id_post,$id_user){
   mysqli_close($con);
 }
 
-// Regarde si l'utilisateur a déjà donné ce type de vote là
+//Check si l'utilisateur a déjà fait le même vote sur un commentaire
 function verif_meme_type_vote_comm($id_comm,$id_user,$id_post,$type) {
   $con=connection();
   $q = mysqli_query($con, 'SELECT * FROM vote_commentaire');
@@ -303,7 +312,7 @@ function verif_meme_type_vote_comm($id_comm,$id_user,$id_post,$type) {
   return 0;
 }
 
-// Regarde si l'utilisateur a déjà voté mais un vote different
+//Check si l'utilisateur a déjà voté mais un vote différent sur un commentaire
 function verif_different_type_vote_comm($id_comm,$id_user,$id_post,$type) {
   $con=connection();
   $q = mysqli_query($con, 'SELECT * FROM vote_commentaire');
@@ -319,7 +328,7 @@ function verif_different_type_vote_comm($id_comm,$id_user,$id_post,$type) {
   return 0;
 }
 
-// Modifie un dislike en un like
+//Modification d'un dislike en un like sur un commentaire
 function modifie_dislike_en_like_comm($id_comm,$id_user,$id_post) {
   $con = connection();
   $stmt = mysqli_prepare($con, "UPDATE vote_commentaire SET type= 'like' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."' AND id_comm = '".$id_comm."'" );
@@ -328,7 +337,7 @@ function modifie_dislike_en_like_comm($id_comm,$id_user,$id_post) {
 
 }
 
-// Modifie un like en un dislike
+//Modification d'un like en un dislike sur un commentaire
 function modifie_like_en_dislike_comm($id_comm,$id_user,$id_post) {
   $con = connection();
   $stmt = mysqli_prepare($con, "UPDATE vote_commentaire SET type= 'dislike' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."' AND id_comm = '".$id_comm."'" );
@@ -336,8 +345,23 @@ function modifie_like_en_dislike_comm($id_comm,$id_user,$id_post) {
   mysqli_close($con);
 }
 
+//Récupération du lien correspondant à l'id d'un post
+function lien_id($id_post){
+  $con=connection();
+  $query = mysqli_query($con,"SELECT * FROM posts WHERE id_post='".$id_post."'");
+  $a=mysqli_fetch_assoc($query);
+  mysqli_close($con);
+  return $a['lien'];
+}
 
-
+//Récupération de la description correspondant à l'id d'un post
+function description_id($id_post){
+  $con=connection();
+  $query = mysqli_query($con,"SELECT * FROM posts WHERE id_post='".$id_post."'");
+  $a=mysqli_fetch_assoc($query);
+  mysqli_close($con);
+  return $a['contenu_post'];
+}
 
 // // Donne le nombre de likes sur un post
 // function nbe_like($id_post){
