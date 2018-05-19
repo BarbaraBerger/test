@@ -188,7 +188,7 @@ function suppr_tous_comm($id_post){
   mysqli_close($con);
 }
 
-//Ajoute un like à un post
+//Ajoute un vote à un post
 function add_vote_post($id_user,$id_post,$type){
   $con = connection();
   $stmt = mysqli_prepare($con, "INSERT INTO vote_post (id_user,id_post,type) VALUES ('".$id_user."','".$id_post."','".$type."')");
@@ -196,7 +196,7 @@ function add_vote_post($id_user,$id_post,$type){
   mysqli_close($con);
 }
 
-//Retire les votes sur un post
+//Supprime tous les votes sur un post
 function remove_vote_post($id_post){
   $con = connection();
   $stmt = mysqli_prepare($con, "DELETE FROM vote_post WHERE id_post = '".$id_post."'");
@@ -204,7 +204,7 @@ function remove_vote_post($id_post){
   mysqli_close($con);
 }
 
-//Ajoute un like à un commentaire
+//Ajoute un vote à un commentaire
 function add_vote_comm($id_user,$id_post,$id_comm,$type){
   $con = connection();
   $stmt = mysqli_prepare($con, "INSERT INTO vote_commentaire (id_user,id_post,id_comm,type) VALUES ('".$id_user."','".$id_post."','".$id_comm."','".$type."')");
@@ -212,8 +212,7 @@ function add_vote_comm($id_user,$id_post,$id_comm,$type){
   mysqli_close($con);
 }
 
-
-//Retire les votes sur un commentaire
+//Supprime tous les votes sur un commentaire
 function remove_vote_comm($id_comm){
   $con = connection();
   $stmt = mysqli_prepare($con, "DELETE FROM vote_commentaire WHERE id_comm = '".$id_comm."'");
@@ -221,23 +220,12 @@ function remove_vote_comm($id_comm){
   mysqli_close($con);
 }
 
-
-
-
-// Vérifie que l'utilisateur n'a pas déja voté pour ce post
-function verif_vote_post($id_user,$id_post) {
-  $con=connection();
-  $q = mysqli_query($con, 'SELECT * FROM vote_post');
-  while($tab = mysqli_fetch_assoc($q)){
-    if($id_user == $tab['id_user'] && $id_post== $tab['id_post']){
-      mysqli_free_result($q);
-      mysqli_close($con);
-      return 0;
-    }
-  }
-  mysqli_free_result($q);
+// Annule un vote d'un utilisateur sur un post
+function suppr_vote_post($id_post,$id_user){
+  $con = connection();
+  $stmt = mysqli_prepare($con, "DELETE FROM vote_post WHERE id_post = '".$id_post."' AND id_user = '".$id_user."'");
+  mysqli_stmt_execute($stmt);
   mysqli_close($con);
-  return 1;
 }
 
 // Regarde si l'utilisateur a déjà donné ce type de vote là
@@ -256,20 +244,58 @@ function verif_meme_type_vote_post($id_user,$id_post,$type) {
   return 0;
 }
 
-
 // Regarde si l'utilisateur a déjà voté mais un vote different
 function verif_different_type_vote_post($id_user,$id_post,$type) {
   $con=connection();
   $q = mysqli_query($con, 'SELECT * FROM vote_post');
   while($tab = mysqli_fetch_assoc($q)){
-    if($id_user == $tab['id_user'] && $id_post== $tab['id_post']){
-	if($type == $tab['type']){ 
+    if($id_user == $tab['id_user'] && $id_post== $tab['id_post'] && $type != $tab['type']){
       	mysqli_free_result($q);
       	mysqli_close($con);
-      	return 0;
-	}else{
-	return 1;
-	}
+      	return 1;
+	       }
+       }
+  mysqli_free_result($q);
+  mysqli_close($con);
+  return 0;
+}
+
+// Modifie un dislike en un like sur un post
+function modifie_dislike_en_like_post($id_user,$id_post) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "UPDATE vote_post SET type= 'like' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."'" );
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+
+}
+
+// Modifie un like en un dislike sur un post
+function modifie_like_en_dislike_post($id_user,$id_post) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "UPDATE vote_post SET type= 'dislike' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."'" );
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+
+}
+
+
+// Annule un vote d'un utilisateur sur un commentaire
+function suppr_vote_comm($id_comm,$id_post,$id_user){
+  $con = connection();
+  $stmt = mysqli_prepare($con, "DELETE FROM vote_commentaire WHERE id_post = '".$id_post."' AND id_user = '".$id_user."' AND id_comm = '".$id_comm."'");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+
+// Regarde si l'utilisateur a déjà donné ce type de vote là
+function verif_meme_type_vote_comm($id_comm,$id_user,$id_post,$type) {
+  $con=connection();
+  $q = mysqli_query($con, 'SELECT * FROM vote_commentaire');
+  while($tab = mysqli_fetch_assoc($q)){
+    if($id_user == $tab['id_user'] && $id_post== $tab['id_post'] && $type == $tab['type'] && $id_comm == $tab['id_comm']){
+      mysqli_free_result($q);
+      mysqli_close($con);
+      return 1;
     }
   }
   mysqli_free_result($q);
@@ -277,24 +303,40 @@ function verif_different_type_vote_post($id_user,$id_post,$type) {
   return 0;
 }
 
-
-// Trouve l'id du vote du post correspond au au post et à l'utilisateur 
-function id_vote_post($id_post,$id_user){
-  $con = connection();
-  $query = mysqli_query($con, "SELECT * FROM vote_post WHERE id_post = '".$id_post."' AND id_user = '".$id_user."'");
-  $a=mysqli_fetch_assoc($query);
+// Regarde si l'utilisateur a déjà voté mais un vote different
+function verif_different_type_vote_comm($id_comm,$id_user,$id_post,$type) {
+  $con=connection();
+  $q = mysqli_query($con, 'SELECT * FROM vote_commentaire');
+  while($tab = mysqli_fetch_assoc($q)){
+    if($id_user == $tab['id_user'] && $id_post== $tab['id_post'] && $type != $tab['type'] && $id_comm == $tab['id_comm']){
+      	mysqli_free_result($q);
+      	mysqli_close($con);
+      	return 1;
+	       }
+       }
+  mysqli_free_result($q);
   mysqli_close($con);
-return $a['id'];
+  return 0;
 }
 
-// Modifie un vote
-function modifie_like_en_dislike($id_user,$id_post) {
+// Modifie un dislike en un like
+function modifie_dislike_en_like_comm($id_comm,$id_user,$id_post) {
   $con = connection();
-  $type = 'dislike';
-  $stmt = mysqli_prepare($con, "UPDATE vote_post SET type= '".$type."' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."'" );
+  $stmt = mysqli_prepare($con, "UPDATE vote_commentaire SET type= 'like' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."' AND id_comm = '".$id_comm."'" );
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+
+}
+
+// Modifie un like en un dislike
+function modifie_like_en_dislike_comm($id_comm,$id_user,$id_post) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "UPDATE vote_commentaire SET type= 'dislike' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."' AND id_comm = '".$id_comm."'" );
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
 }
+
+
 
 
 // // Donne le nombre de likes sur un post

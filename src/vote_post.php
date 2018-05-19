@@ -1,36 +1,37 @@
 <?php  session_start();
 include("fonctions.php");
 $id_post=$_GET['id'];
-$type=$_GET['type'];
-$id_vote=id_vote_post($id_post,$_SESSION['id_user']);
+$type = $_GET['type'];
 
-
-//S'il a deja voté, et qu'il tente de refaire le même vote, alors il se passe rien 
-if(verif_meme_type_vote_post($_SESSION['id_user'],$id_post,$type)){
-
-	header('Location: post.php?id='.$id_post);
-	echo " déjà voté ceci"; //il faut faire ta methode du $msg pour que ca apparaissent sur la meme comme t'as fait pour "post supprimé
+//Si annuler alors ça efface le vote
+if ($type == annuler){
+  suppr_vote_post($id_post,$_SESSION['id_user']);
+  header('Location: post.php?annuleok=post&id='.$id_post);
 }
-
-// S'il a déjà voté et qu'il veut changer son vote (UPTADE dans la table)
-//mais ca marche pas 
-if(verif_different_type_vote_post($_SESSION['id_user'],$id_post,$type)){
-	if($type == 'like'){
-		modifie_like_en_dislike($_SESSION['id_user'],$id_post);
-	}
+elseif ($type == like){
+  if (verif_meme_type_vote_post($_SESSION['id_user'],$id_post,$type)){
+  header('Location: post.php?erreur=likepost&id='.$id_post);
+  }
+  elseif (verif_different_type_vote_post($_SESSION['id_user'],$id_post,$type)) {
+  modifie_dislike_en_like_post($_SESSION['id_user'],$id_post);
+  header('Location: post.php?erreur=1&id='.$id_post);
+  }
+  else {
+  add_vote_post($_SESSION['id_user'],$id_post,$type);
+  header('Location: post.php?vote=likepost&id='.$id_post);
+  }
 }
-
-// S'il n'a pas deja voté il vote 
-if(verif_vote_post($_SESSION['id_user'],$id_post)){
-add_vote_post($_SESSION['id_user'],$id_post,$type);
-header('Location: post.php?id='.$id_post);
+elseif ($type == dislike){
+  if (verif_meme_type_vote_post($_SESSION['id_user'],$id_post,$type)){
+  header('Location: post.php?erreur=dislikepost&id='.$id_post);
+  }
+  elseif (verif_different_type_vote_post($_SESSION['id_user'],$id_post,$type)) {
+  modifie_like_en_dislike_post($_SESSION['id_user'],$id_post);
+  header('Location: post.php?erreur=2&id='.$id_post);
+  }
+  else {
+  add_vote_post($_SESSION['id_user'],$id_post,$type);
+  header('Location: post.php?vote=dislikepost&id='.$id_post);
+  }
 }
-
-
-	// Soit il tente de changer son vote et on le change UPTADE dans la table
-
-
-
-
-
 ?>
