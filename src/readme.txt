@@ -4,9 +4,9 @@ Fonctionnalités
 
 Fonctionnalités implémentées : 
 	
-	--> Page d'accueil : un utilisateur non connecté ne peut pas y accéder, il est automatiquement redirigé vers la page de connexion. Sur cette page, les liens ayant les plus de votes et de commentaires sont affichés, ainsi que les liens partagés dans les dernières 24 heures.
+	--> Page d'accueil : un utilisateur non connecté ne peut pas y accéder, il est automatiquement redirigé vers la page de connexion. Sur cette page, les liens ayant les plus de votes et de commentaires sont affichés, ainsi que les liens partagés dans les dernières 24 heures dans l'ordre anti-chronologique.
 
-	--> Inscription : un utilisateur peut s'inscrire en entrant un pseudo de plus de 4 caractères, une adresse mail valide et un mot de passe de plus de 6 caractères. L'utilisateur peut également accéder à la page de connexion depuis la page d'inscription s'il a déjà un compte.
+	--> Inscription : un utilisateur peut s'inscrire en entrant un pseudo de plus de 4 caractères, une adresse mail valide et un mot de passe de plus de 6 caractères. L'utilisateur peut également accéder à la page de connexion depuis la page d'inscription s'il a déjà un compte. Il ne peut pas créer son compte si son pseudo et son mail sont déjà utilisés par un autre utilisateur.
 
 	--> Authentification : un utilisateur peut se connecter à l'aide de son adresse mail et de son mot de passe. Il peut se déconnecter du site. S'il n'est pas connecté, il ne peut pas accéder au site. Enfin, il peut accéder à la page d'inscription depuis la page de connexion s'il n'a pas encore de compte.
 

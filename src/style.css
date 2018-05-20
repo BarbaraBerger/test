@@ -32,8 +32,9 @@ h4 {
   color: #5b88ea;
 }
 
-.msg{
-  font-size: 12px;
+#msg{
+  font-size: 20px;
+  color: #074473;
 }
 
 .jumbotron[id='2'] {

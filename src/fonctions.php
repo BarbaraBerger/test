@@ -28,12 +28,12 @@ function login($mail,$mdp) {
   return 0;
 }
 
-// Verifie que cet utilisateur n'existe pas déjà avec cette adresse mail
-function verificationUtilisateur($pseudo,$mail) {
+//Vérification de la non existence de l'utilisateur par rapport à son pseudo
+function verificationUtilisateur($pseudo) {
   $con = connection();
   $q = mysqli_query($con,"SELECT * FROM utilisateurs");
   while($tab = mysqli_fetch_assoc($q)){
-    if($pseudo == $tab['pseudo'] || $mail ==$tab['mail']){
+    if($pseudo == $tab['pseudo']){
       mysqli_free_result($q);
       mysqli_close($con);
       return 0;
@@ -44,6 +44,21 @@ function verificationUtilisateur($pseudo,$mail) {
   return 1;
 }
 
+//Vérification de la non existence de l'utilisateur par rapport à son mail
+function verificationmail($mail) {
+  $con = connection();
+  $q = mysqli_query($con,"SELECT * FROM utilisateurs");
+  while($tab = mysqli_fetch_assoc($q)){
+    if($mail == $tab['mail']){
+      mysqli_free_result($q);
+      mysqli_close($con);
+      return 0;
+    }
+  }
+  mysqli_free_result($q);
+  mysqli_close($con);
+  return 1;
+}
 
 // Ajout d'un utilisateur à la table utilisateurs
 function ajoutUtilisateur($pseudo,$mail,$mdp) {

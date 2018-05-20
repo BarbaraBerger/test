@@ -43,7 +43,7 @@ if( isset($_GET['password']) && isset($_GET['mail'])){
           <div class="col-md-8">
             <div class="form-group">
               <form action = "login.php" method = "get">
-                <h2 id='msg'> <?php echo "$msg"; ?> </h2>
+                <div id='msg'> <?php echo "$msg"; ?> </div>
                 <input type = "email" class="form-control" name = "mail" placeholder="Veuillez entrer votre adresse mail"/><br>
                 <input type = "password" class="form-control" name = "password" placeholder="Veuillez entrer votre mot de passe"/><br>
                 <center> <input type = "submit" class="btn btn-primary" value = " Se connecter "/> </center>

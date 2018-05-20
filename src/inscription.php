@@ -7,25 +7,39 @@ $pseudo=$_GET['pseudo'];
 $mail=$_GET['mail'];
 $mdp=$_GET['mdp'];
 
-if(verificationUtilisateur($pseudo,$mail)){
- if(ajoutUtilisateur($pseudo,$mail,$mdp)){
-  if(isset($mail) && isset($mdp)){
-    if(login($mail,$mdp)){
-      $_SESSION['mdp'] = $mdp;
-      $_SESSION['mail'] = $mail;
-      date_default_timezone_set("Europe/Paris");
-      $_SESSION['dateCo'] =date("Y-m-d H:i:s");
-      $_SESSION['id_user'] = id_user($_SESSION['mail']);
-      $_SESSION['pseudo'] = $pseudo;
-      header('Location: accueil.php');
+if(verificationUtilisateur($pseudo)){
+  if (verificationmail($mail)){
+    if(ajoutUtilisateur($pseudo,$mail,$mdp)){
+      if(isset($mail) && isset($mdp)){
+        if(login($mail,$mdp)){
+          $_SESSION['mdp'] = $mdp;
+          $_SESSION['mail'] = $mail;
+          date_default_timezone_set("Europe/Paris");
+          $_SESSION['dateCo'] =date("Y-m-d H:i:s");
+          $_SESSION['id_user'] = id_user($_SESSION['mail']);
+          $_SESSION['pseudo'] = $pseudo;
+          header('Location: accueil.php');
+        }
+      }
+    }
+    else {
+      if (isset($pseudo) && isset($mail) && isset ($mdp)){
+        $msg = "Rentrez un identifiant et un mot de passe de la bonne longueur";
       }
     }
   }
-} else {
+  else {
     if (isset($pseudo) && isset($mail) && isset ($mdp)){
-      $msg = "Veuillez rentrer un identifiant valide (au moins 4 caractères) et un mot de passe valide (au moins 6 caractères) ou pseudo ou mail déjà utilisé";
+      $msg = "Ce mail est déjà utilisé.";
     }
   }
+}
+else {
+  if (isset($pseudo) && isset($mail) && isset ($mdp)){
+    $msg = "Ce pseudo est déjà utilisé.";
+  }
+}
+
 
 ?>
 
@@ -51,7 +65,7 @@ if(verificationUtilisateur($pseudo,$mail)){
           <div class="col-md-8">
             <div class="form-group">
               <form action = "inscription.php" method = "get">
-                <h2 id='msg'> <?php echo "$msg"; ?> </h2>
+                <div id='msg'> <?php echo "$msg"; ?> </div><br>
                 <input type="text" class="form-control" name='pseudo' placeholder="Veuillez choisir un pseudo d'au moins 4 caractères" required/> <br>
                 <input type="email" class="form-control" name='mail' placeholder="Veuillez entrer votre adresse mail" required/><br>
                 <input type="text" class="form-control" name='mdp' placeholder="Veuillez entrer un mot de passe d'au moins 6 caractères" required/><br>
