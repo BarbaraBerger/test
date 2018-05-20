@@ -1,25 +1,35 @@
 Fonctionnalités
 -------------------
 
-Fonctionnalités implémentées :
-	--> Au lancement de n'importe quelle page du dossier, redirection vers la page de connexion si l'utilisateur n'est pas connecté.
-	--> Inscription : l'utilisateur peut s'inscrire et arrive sur la page d'accueil si tout est correct (pseudo, mail, mdp).
-	--> Redirection vers la page inscription depuis la page connexion et vice versa.
-	--> Connexion au site : lorsque l'utilisateur se connecte, il arrive sur la page d'accueil.
-	--> Ajouter un post
-	--> Ajouter un commentaire sur un post
-	--> Afficher les posts du plus au moins récent
-	--> Commenter un post
-	--> Vote : un utilisateur peut voter une seule fois sur un post ou un commentaire. Il peut changer son vote ou l'annuler.
-	--> Un utilisateur peut supprimer ses commentaires et ses posts, mais pas ceux des autres.
-	--> Un utilisateur peut modifier ses commentaires et les descriptions de ses posts, mais pas ceux des autres.
-	--> Déconnexion : un utilisateur peut se déconnecter du site.
 
-Fonctionnalités non implémentées :
-	--> Affichage du nombre de vote(s) à côté des commentaires et des posts
-	--> Les plus populaires sur la page d'accueil
-	--> Liens sur lequels j'ai interagi dans le profil
-	--> Déploiement
+Fonctionnalités implémentées : 
+	
+	--> Page d'accueil : un utilisateur non connecté ne peut pas y accéder, il est automatiquement redirigé vers la page de connexion. Sur cette page, les liens ayant les plus de votes et de commentaires sont affichés, ainsi que les liens partagés dans les dernières 24 heures.
+
+	--> Inscription : un utilisateur peut s'inscrire en entrant un pseudo de plus de 4 caractères, une adresse mail valide et un mot de passe de plus de 6 caractères. L'utilisateur peut également accéder à la page de connexion depuis la page d'inscription s'il a déjà un compte.
+
+	--> Authentification : un utilisateur peut se connecter à l'aide de son adresse mail et de son mot de passe. Il peut se déconnecter du site. S'il n'est pas connecté, il ne peut pas accéder au site. Enfin, il peut accéder à la page d'inscription depuis la page de connexion s'il n'a pas encore de compte.
+
+	--> Ajouter/Éditer/Supprimer des liens : un utilisateur connecté peut partager un lien avec son commentaire depuis la page d'accueil ainsi que depuis sa page de profil. Lorsque l'utilisateur accède à la page d'un lien, il a la possibilité de supprimer ou de modifier le post, seulement si c'est le sien. S'il le supprime, il est automatiquement redirigé vers la page d'accueil.
+
+	--> Visualiser la page d'un lien : en cliquant sur le lien, un utilisateur accède à la page du post, où il peut visualiser les votes du post, ainsi que les commentaires du post et leurs votes.
+
+	--> Upvote et downvote des liens : depuis la page du lien, un utilisateur a la possibilité de liker ou de disliker un post. Il ne peut voter qu'une seule fois, mais il peut changer son vote ou l'annuler (un message sur la page lui confirme ce qu'il a fait). Les nombres de like(s) et de dislike(s) d'un post sont affichés en dessous du post. 
+
+	--> Commenter un lien : un utilisateur connecté peut commenter les liens du site autant de fois qu'il le souhaite, depuis la page du post. Depuis cette même page, il peut visualiser tous les commentaires du post, et il peut supprimer ou modifier les commentaires qui sont les siens. Il peut également liker ou disliker les commentaires, que ce soient les siens ou non . Il n'a le droit qu'à un seul vote par commentaire mais il peut changer ou annuler son vote, comme il peut le faire avec les posts.
+
+	--> Page de profil : un utilisateur connecté peut accéder à sa page de profil depuis l'accueil ou depuis la page d'un post. Sur cette page, il peut partager un lien avec sa description. Il peut aussi y visualiser ses posts de manière anti-chronologique et les posts dans lesquels il a interagi (vote ou commentaire).
+
+	--> Déploiement : un script permet de déployer le site sur un serveur. Ce script permet l'installation des tables dans une base de données, la création de deux utilisateurs, la création d'un partage de lien, d'un commentaire et d'un upvote. Les deux utilisateurs sont : bob@bob (mdp : bobby66) et max@max (mdp : maxou59), pour respecter les contraintes sur l'adresse mail et le mot de passe. 
+
+	--> Messages d'erreur : l'utilisateur reçoit des messages d'erreur si à l'inscription son pseudo et/ou son mot de passe ne sont pas valides et s'il trompe dans son adresse mail ou son mot de passe lors de la connexion.
+
+	--> Sécurité de l'application : il n'est pas possible d'accéder aux informations d'un utilisateur sans avoir rentrer son mot de passe et son adresse mail avant. Il n'est pas possible pour les utilisateurs de modifier ou de supprimer quelque chose qu'il n'a pas posté.
+
+
+Fonctionnalités non implémentées : 
+
+	--> Bonus : favoris, catégories.
 
 
 Architecture
@@ -27,32 +37,33 @@ Architecture
 
 src/configuration.php : permet de configurer les accès à la base de données, ainsi que le nom du site.
 
-src/install.php : permet de créer les bases de données nécessaires à l'utilisation du site, ainsi que d'ajouter les 2 utilisateurs demandés, le lien, le commentaire et le vote aux bases concernées. Les deux utilisateurs sont : bob@bob (mdp : bobby66) et max@max (mdp : maxou59), pour respecter les contraintes sur l'adresse mail et le mot de passe. 
+src/install.php : permet le déploiement du site.
 
 src/fonctions.php : fichier qui regroupe toutes les fonctions qu'il a été utile de définir pour implémenter le site.
 
 src/style.css : feuille de style du site.
 
-src/accueil.php : page d'accueil de notre site, sur laquelle l'utilisateur peut ajouter un post, visualiser les posts du jour et les posts le plus populaires (et y accéder pour les commenter ou votre en cliquant dessus). Il peut aussi aller sur son profil et se déconnecter depuis cette page.
+src/accueil.php : page d'accueil de notre site (inaccessible à tous les utilisateurs qui ne sont pas connectés).
 
-src/inscription.php : page qui permet à l'utilisateur de s'inscrire sur le site, et qui le redirige vers la page d'accueil après l'inscription (si et seulement si l'inscription est valide).
+src/inscription.php : page qui permet à l'utilisateur de s'inscrire sur le site.
 
-src/login.php : page qui permet de se connecter et qui le redirige vers la page d'accueil.
+src/login.php : page qui permet à l'utilisateur de se connecter.
 
-src/logout.php : page qui déconnecte l'utilisateur et le redirige vers la page de connexion.
+src/logout.php : page qui déconnecte l'utilisateur et le redirige automatiquement vers la page de connexion.
 
-src/post.php : page qui affiche le post demandé par l'utilisateur. IL peut y voter pour ce post mais aussi le commenter et voter pour les commentaires. L'utilisateur peut aussi accéder à la modification et à la suppression du post et/ou des commentaires si ce sont les siens.
+src/post.php : page qui affiche le post demandé par l'utilisateur.
 
-src/modifier_comm.php : page où l'utilisateur peut modifier son commentaire. Il peut égaler accéder à la page du post correspond au commentaire qu'il veut modifier. L'utilisateur ne peut pas accéder à cette page pour les commentaires qui ne sont pas les siens.
+src/modifier_comm.php : page où l'utilisateur peut modifier son commentaire. .
 
-src/modifier.php : page où l'utilisateur peut modifier son post. Il peut égaler accéder à la page du post correspondant . L'utilisateur ne peut pas accéder à cette page pour les posts qui ne sont pas les siens. 
+src/modifier.php : page où l'utilisateur peut modifier son post.
 
-src/profil.php : page sur laquelle l'utilisateur accède à son profil. Depuis cette page, il peut retourner à la page d'accueil et ce déconnecter. Il peut également visualiser ses posts et ceux dans lesquels il a interagit. Enfin, il peut poster un lien s'il le souhaite.
+src/profil.php : page sur laquelle l'utilisateur accède à son profil. 
 
-src/suppression_com.php : page qui sert à supprimer le commentaire d'un utilisateur lorsqu'il le demande (seulement si le commentaire est le sien, sinon il n'accède jamais à cette page). Tous les votes de ce commentaire sont également supprimés. La page redirige automatiquement vers la page du post correspondant.
+src/suppression_com.php : page qui permet à l'utilisateur de supprimer son commentaire et qui le redirige automatiquement vers la page du post correspondant.
 
-src/suppression.php : page qui sert à supprimer le post d'un utilisateur lorsqu'il le demande (seulement si le post est le sien, sinon il n'accède jamais à cette page). Tous les votes de ce post, les commentaires du post et leurs votes sont également supprimés. La page redirige automatiquement vers la page d'accueil.
+src/suppression.php : page qui permet à l'utilisateur de supprimer son post et qui le redirige automatiquement vers la page d'accueil.
 
-src/vote_comm.php : page qui sert à ajouter le vote d'un utilisateur sur un commentaire. Si il a déjà voté la même chose, un message d'erreur s'affiche sur le commentaire. S'il vote différemment, son vote est mis à jour. Cette page sert aussi à annuler le vote d'un utilisateur s'il le demande.
+src/vote_comm.php : page qui sert à ajouter le vote d'un utilisateur sur un commentaire et qui le redirige automatiquement vers la page du post.
 
-src/vote_post.php : page qui sert à ajouter le vote d'un utilisateur sur un post. Si il a déjà voté la même chose, un message d'erreur s'affiche sur le post. S'il vote différemment, son vote est mis à jour. Cette page sert aussi à annuler le vote d'un utilisateur s'il le demande.
+src/vote_post.php : page qui sert à ajouter le vote d'un utilisateur sur un post et qui le redirige automatiquement vers la page du post.
+

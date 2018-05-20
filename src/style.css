@@ -25,6 +25,13 @@ h4 {
     color: #074473;
 }
 
+.soustitre {
+  font-size: 20px;
+  font-weight: bold;
+  font-style: italic;
+  color: #5b88ea;
+}
+
 .msg{
   font-size: 12px;
 }
@@ -85,7 +92,7 @@ a {
 
 .jumbotron[id='8'] {
   background :#adabb5;
-  height: 280px;
+  height: 350px;
 }
 
 #pseudo {
@@ -104,6 +111,7 @@ font-weight: bold;
   font-size: 20px;
   color: white;
 }
+
 
 #date {
   font-style: italic;

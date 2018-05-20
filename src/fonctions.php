@@ -1,4 +1,5 @@
 <?php
+
 include ("configuration.php");
 
 //Connexion à la base de données
@@ -49,7 +50,6 @@ function ajoutPost($id_user, $lien, $contenu_post) {
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
 }
-
 
 // Récupération de l'id de l'utilisateur correspondant au mail dans la table utilisateurs
 function id_user($mail) {
@@ -125,13 +125,22 @@ function suppression_post($id) {
   mysqli_close($con);
 }
 
-//Modification d'un post
+//Modification de la description d'un post
 function modifie_contenu_post($contenu_post,$id_post) {
   $con = connection();
   $stmt = mysqli_prepare($con, "UPDATE posts SET contenu_post= '".$contenu_post."' WHERE id_post = '".$id_post."'");
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
 }
+
+//Modification du lien d'un post
+function modifie_contenu_lien($lien,$id_post) {
+  $con = connection();
+  $stmt = mysqli_prepare($con, "UPDATE posts SET lien= '".$lien."' WHERE id_post = '".$id_post."'");
+  mysqli_stmt_execute($stmt);
+  mysqli_close($con);
+}
+
 //Ajout d'un commentaire
 function ajoutCom($id_user, $id_post, $contenu_comm) {
   $con = connection();
@@ -139,6 +148,7 @@ function ajoutCom($id_user, $id_post, $contenu_comm) {
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
 }
+
 //Affichage des commentaires d'un post
 function affiche_com_post($id){
   $con = connection();
@@ -148,6 +158,7 @@ function affiche_com_post($id){
   mysqli_close($con);
   return $assoc;
 }
+
 //Suppression d'un commentaire
 function suppression_comm($id) {
   $con = connection();
@@ -261,23 +272,22 @@ function verif_different_type_vote_post($id_user,$id_post,$type) {
   $q = mysqli_query($con, 'SELECT * FROM vote_post');
   while($tab = mysqli_fetch_assoc($q)){
     if($id_user == $tab['id_user'] && $id_post== $tab['id_post'] && $type != $tab['type']){
-      	mysqli_free_result($q);
-      	mysqli_close($con);
-      	return 1;
-	       }
-       }
+      mysqli_free_result($q);
+    	mysqli_close($con);
+    	return 1;
+    }
+  }
   mysqli_free_result($q);
   mysqli_close($con);
   return 0;
 }
 
 //Modification d'un dislike en un like sur un post
-function modifie_dislike_en_like_post($id_user,$id_post) {
+function modifie_dislike_en_like_post($id_user,$id_post){
   $con = connection();
   $stmt = mysqli_prepare($con, "UPDATE vote_post SET type= 'like' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."'" );
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
-
 }
 
 //Modification d'un like en un dislike sur un post
@@ -318,11 +328,11 @@ function verif_different_type_vote_comm($id_comm,$id_user,$id_post,$type) {
   $q = mysqli_query($con, 'SELECT * FROM vote_commentaire');
   while($tab = mysqli_fetch_assoc($q)){
     if($id_user == $tab['id_user'] && $id_post== $tab['id_post'] && $type != $tab['type'] && $id_comm == $tab['id_comm']){
-      	mysqli_free_result($q);
-      	mysqli_close($con);
-      	return 1;
-	       }
-       }
+      mysqli_free_result($q);
+    	mysqli_close($con);
+      return 1;
+	  }
+  }
   mysqli_free_result($q);
   mysqli_close($con);
   return 0;
@@ -334,7 +344,6 @@ function modifie_dislike_en_like_comm($id_comm,$id_user,$id_post) {
   $stmt = mysqli_prepare($con, "UPDATE vote_commentaire SET type= 'like' WHERE id_user = '".$id_user."' AND id_post = '".$id_post."' AND id_comm = '".$id_comm."'" );
   mysqli_stmt_execute($stmt);
   mysqli_close($con);
-
 }
 
 //Modification d'un like en un dislike sur un commentaire
@@ -363,31 +372,107 @@ function description_id($id_post){
   return $a['contenu_post'];
 }
 
-// // Donne le nombre de likes sur un post
-// function nbe_like($id_post){
-//   $con=connection();
-//   $query=mysqli_query($con,"SELECT COUNT(*) FROM votes WHERE id_post='".$id_post."' AND type="like"");
-//   $a=mysqli_fetch_assoc($query);
-//   mysqli_close($con);
-//   return $a;
-// }
-//
-// //Donne le nombre de dislike d'un post
-// function nbe_dislike($id_post){
-//   $con=connection();
-//   $query=mysqli_query($con,"SELECT COUNT(*) FROM votes WHERE id_post='".$id_post."' AND type="dislike"");
-//   $a=mysqli_fetch_assoc($query);
-//   mysqli_close($con);
-//   return $a;
-// }
-//
+//Récupération du nombre de likes sur un commentaire
+function nbe_like_comm($id_comm){
+  $con=connection();
+  $query=mysqli_query($con,"SELECT id FROM vote_commentaire WHERE id_comm='".$id_comm."' AND type='like'");
+  $a= mysqli_num_rows($query);
+  mysqli_close($con);
+  return $a;
+}
 
-//
-// //Ajoute un dislike à un post
-// function add_dislike($id_user,$id_post){
-//   $con = connection();
-//   $stmt = mysqli_prepare($con, "INSERT INTO votes (id_user,id_post,type) VALUES ('".$id_user."','".$id_post."','dislike')");
-//   mysqli_stmt_execute($stmt);
-//   mysqli_close($con);
-// }
- ?>
+//Récupération du nombre de dislikes sur un commentaire
+function nbe_dislike_comm($id_comm){
+  $con=connection();
+  $query=mysqli_query($con,"SELECT id FROM vote_commentaire WHERE id_comm='".$id_comm."' AND type='dislike'");
+  $a=mysqli_num_rows($query);
+  mysqli_close($con);
+  return $a;
+}
+
+//Récupération du nombre de likes sur un post
+function nbe_like_post($id_post){
+  $con=connection();
+  $query=mysqli_query($con,"SELECT id FROM vote_post WHERE id_post='".$id_post."' AND type='like'");
+  $a= mysqli_num_rows($query);
+  mysqli_close($con);
+  return $a;
+}
+
+//Récupération du nombre de dislikes sur un post
+function nbe_dislike_post($id_post){
+  $con=connection();
+  $query=mysqli_query($con,"SELECT id FROM vote_post WHERE id_post='".$id_post."' AND type='dislike'");
+  $a=mysqli_num_rows($query);
+  mysqli_close($con);
+  return $a;
+}
+
+//Récupération de l'id des posts que l'utilisateur a commenté
+function id_my_post_comm($id_user){
+  $con=connection();
+  $q = mysqli_query($con,"SELECT id_post FROM commentaires WHERE id_user='".$id_user."'");
+  $assoc = mysqli_fetch_assoc($q);
+  mysqli_free_result($q);
+  mysqli_close($con);
+  return $assoc;
+}
+
+//Récupération de l'id des posts que l'utilisateur a commenté
+function id_my_post_vote($id_user){
+  $con=connection();
+  $q = mysqli_query($con,"SELECT id_post FROM vote_post WHERE id_user='".$id_user."'");
+  $assoc = mysqli_fetch_assoc($q);
+  mysqli_free_result($q);
+  mysqli_close($con);
+  return $assoc;
+}
+
+// Compte le nombre de commentaires par post et retourne les posts classés par ordre de nombre de commentaires desc
+function affiche_post_plus_commente(){
+  $con = connection();
+  $stmt = mysqli_query($con, "SELECT id_post,COUNT(*) FROM commentaires GROUP BY id_post ORDER BY COUNT(*) DESC");
+  $assoc=mysqli_fetch_all($stmt, MYSQLI_ASSOC);
+  mysqli_free_result($stmt);
+  mysqli_close($con);
+  return $assoc;
+}
+
+//Récupération de la date correspondant au post
+function date_post($id){
+  $con=connection();
+  $query = mysqli_query($con,"SELECT * FROM posts WHERE id_post='".$id."'");
+  $a=mysqli_fetch_assoc($query);
+  mysqli_close($con);
+  return $a['date'];
+}
+
+//Récupération du lien correspondant au post
+function lien_post($id){
+  $con=connection();
+  $query = mysqli_query($con,"SELECT * FROM posts WHERE id_post='".$id."'");
+  $a=mysqli_fetch_assoc($query);
+  mysqli_close($con);
+  return $a['lien'];
+}
+
+//Récupération du contenu_post correspondant au post
+function contenu_post($id){
+  $con=connection();
+  $query = mysqli_query($con,"SELECT * FROM posts WHERE id_post='".$id."'");
+  $a=mysqli_fetch_assoc($query);
+  mysqli_close($con);
+  return $a['contenu_post'];
+}
+
+//Compte le nombre de votes par post et retourne les posts classés par ordre de nombre de posts desc
+function affiche_post_plus_vote(){
+  $con = connection();
+  $stmt = mysqli_query($con, "SELECT id_post,COUNT(*) FROM vote_post GROUP BY id_post ORDER BY COUNT(*) DESC");
+  $assoc=mysqli_fetch_all($stmt, MYSQLI_ASSOC);
+  mysqli_free_result($stmt);
+  mysqli_close($con);
+  return $assoc;
+}
+
+?>

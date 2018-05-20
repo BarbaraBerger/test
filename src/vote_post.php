@@ -1,10 +1,14 @@
 <?php  session_start();
+
 include("fonctions.php");
+
 if (!isset($_SESSION['mail'])) {
   header('Location: login.php');
 }
+
 $id_post=$_GET['id'];
 $type = $_GET['type'];
+
 if ($type == annuler){
   suppr_vote_post($id_post,$_SESSION['id_user']);
   header('Location: post.php?annuleok=post&id='.$id_post);

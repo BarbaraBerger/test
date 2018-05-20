@@ -15,7 +15,6 @@ if(isset($_GET['lien'])){
 
 ?>
 
-
 <html>
   <head>
     <meta charset ="utf-8"/>
@@ -71,41 +70,69 @@ if(isset($_GET['lien'])){
             	$contenu_post = $post['contenu_post'];
           ?>
           <section class="jumbotron" id='5'>
-          <?php echo "<div id='pseudo'>$pseudo a partagé : </div>";
+          <?php
+            echo "<div id='pseudo'>$pseudo a partagé : </div>";
           	echo "<div id='date'>$date</div>";
           	echo "<div id='post'><a href='$lien'>$lien</a></div>";
           	echo "<div id='description'>$contenu_post</div><br>";
-            echo "<div id='votes'> 3 upvotes - 2 downvotes </div><br>";
+            $nbe_like_post = nbe_like_post($id_post);
+            $nbe_dislike_post = nbe_dislike_post($id_post);
+            echo "<div id='votes'> $nbe_like_post upvote(s) - $nbe_dislike_post downvote(s) </div><br>";
             echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
           ?>
           </section>
           <?php } ?>
         </section>
         <section class="col-6">
-          <header>
-            <center>
-              <h2 class="title"> <span class="badge"> Liens les plus populaires : </span> </h2>
-            </center>
-          </header>
+          <header> <center> <h2 class="title"> <span class="badge"> Liens les plus populaires : </span> </h2> </center></header>
           <div class="border-bottom border-dark"> </div> <br>
+          <div class="soustitre"><li> Liens les plus commentés : </li></div><br>
           <?php
-            $posts=affiche_post_recent();
+            $posts=affiche_post_plus_commente();
             foreach ($posts as $post){
-              $id_user = $post['id_user'];
               $id_post = $post['id_post'];
+        	    $id_user = id_user_post($id_post);
               $pseudo = pseudo_id($id_user);
-              $date = $post['date'];
-              $lien = $post['lien'];
-              $contenu_post = $post['contenu_post'];
+              $date = date_post($id_post);
+              $lien = lien_post($id_post);
+              $contenu_post = contenu_post($id_post);
+              $nbe_like_post = nbe_like_post($id_post);
+              $nbe_dislike_post = nbe_dislike_post($id_post);
           ?>
           <section class="jumbotron" id='5'>
-            <?php echo "<div id='pseudo'>$pseudo a partagé : </div>";
-              echo "<div id='date'>$date</div>";
-              echo "<div id='post'><a href='$lien'>$lien</a></div>";
-              echo "<div id='description'>$contenu_post</div><br>";
-              echo "<div id='votes'> 3 upvotes - 2 downvotes </div><br>";
-              echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
-            ?>
+          <?php
+            echo "<div id='pseudo'>$pseudo a partagé : </div>";
+            echo "<div id='date'>$date</div>";
+            echo "<div id='post'><a href='$lien'>$lien</a></div>";
+            echo "<div id='description'>$contenu_post</div><br>";
+            echo "<div id='votes'> $nbe_like_post upvote(s) - $nbe_dislike_post downvote(s) </div><br>";
+            echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
+          ?>
+          </section>
+          <?php } ?>
+          <div class="border-bottom border-dark"> </div> <br>
+          <div class="soustitre"> <li> Liens avec le plus de votes : </li></div><br>
+          <?php
+            $posts=affiche_post_plus_vote();////
+            foreach ($posts as $post){
+              $id_post = $post['id_post'];
+      	      $id_user = id_user_post($id_post);
+              $pseudo = pseudo_id($id_user);
+              $date = date_post($id_post);
+              $lien = lien_post($id_post);
+              $contenu_post = contenu_post($id_post);
+              $nbe_like_post = nbe_like_post($id_post);
+              $nbe_dislike_post = nbe_dislike_post($id_post);
+          ?>
+          <section class="jumbotron" id='5'>
+          <?php
+            echo "<div id='pseudo'>$pseudo a partagé : </div>";
+            echo "<div id='date'>$date</div>";
+            echo "<div id='post'><a href='$lien'>$lien</a></div>";
+            echo "<div id='description'>$contenu_post</div><br>";
+            echo "<div id='votes'> $nbe_like_post upvote(s) - $nbe_dislike_post downvote(s) </div><br>";
+            echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
+          ?>
           </section>
           <?php } ?>
         </section>

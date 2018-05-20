@@ -1,9 +1,12 @@
 <?php session_start();
+
 include ("fonctions.php");
 include ("configuration.php");
+
 if (!isset($_SESSION['mail'])) {
   header('Location: login.php');
 }
+
 if(isset($_GET['lien'])){
   $lien=$_GET['lien'];
   $contenu_post=$_GET['contenu_post'];
@@ -57,33 +60,57 @@ if(isset($_GET['lien'])){
           </header>
           <div class="border-bottom border-dark"> </div> <br>
           <?php
-            $posts=affiche_post_recent();
-            foreach ($posts as $post){
-            	$id_user = $post['id_user'];
-              $id_post = $post['id_post'];
-              $pseudo = pseudo_id($id_user);
-            	$date = $post['date'];
-            	$lien = $post['lien'];
-            	$contenu_post = $post['contenu_post'];
-              ?>
+            $assocs=id_my_post_comm($_SESSION['id_user']);
+            foreach ($assocs as $assoc){
+              $id_post = $assoc['id_post'];
+              $posts=affiche_post($id_post);
+              foreach ($posts as $post){
+              	$id_user = $post['id_user'];
+                $pseudo = pseudo_id($id_user);
+              	$date = $post['date'];
+              	$lien = $post['lien'];
+              	$contenu_post = $post['contenu_post'];
+                $nbe_like_post = nbe_like_post($id_post);
+                $nbe_dislike_post = nbe_dislike_post($id_post);
+          ?>
           <section class="jumbotron" id='5'>
-              <?php echo "<div id='pseudo'>$pseudo a partagé : </div>";
-            	echo "<div id='date'>$date</div>";
-            	echo "<div id='post'><a href='$lien'>$lien</a></div>";
-            	echo "<div id='description'>$contenu_post</div><br>";
-              echo "<div id='votes'> 3 upvotes - 2 downvotes </div><br>";
-              echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
-              ?>
+          <?php
+            echo "<div id='pseudo'>$pseudo a partagé : </div>";
+      	    echo "<div id='date'>$date</div>";
+          	echo "<div id='post'><a href='$lien'>$lien</a></div>";
+          	echo "<div id='description'>$contenu_post</div><br>";
+            echo "<div id='votes'> $nbe_like_post upvote(s) - $nbe_dislike_post downvote(s) </div><br>";
+            echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
+          ?>
           </section>
-              <?php } ?>
+          <?php } }
+            $assocs=id_my_post_vote($_SESSION['id_user']);
+            foreach ($assocs as $assoc){
+              $id_post = $assoc['id_post'];
+              $posts=affiche_post($id_post);
+              foreach ($posts as $post){
+                $id_user = $post['id_user'];
+                $pseudo = pseudo_id($id_user);
+                $date = $post['date'];
+                $lien = $post['lien'];
+                $contenu_post = $post['contenu_post'];
+                $nbe_like_post = nbe_like_post($id_post);
+                $nbe_dislike_post = nbe_dislike_post($id_post);
+          ?>
+          <section class="jumbotron" id='5'>
+          <?php
+            echo "<div id='pseudo'>$pseudo a partagé : </div>";
+            echo "<div id='date'>$date</div>";
+            echo "<div id='post'><a href='$lien'>$lien</a></div>";
+            echo "<div id='description'>$contenu_post</div><br>";
+            echo "<div id='votes'> $nbe_like_post upvote(s) - $nbe_dislike_post downvote(s) </div><br>";
+            echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
+          ?>
+          </section>
+          <?php } }?>
         </section>
-
         <section class="col-6">
-          <header>
-            <center>
-              <h2 class="title"> <span class="badge"> Mes liens : </span> </h2>
-            </center>
-          </header>
+          <header><center><h2 class="title"> <span class="badge"> Mes liens : </span> </h2></center></header>
           <div class="border-bottom border-dark"> </div> <br>
           <?php
             $posts=affiche_my_post($_SESSION['id_user']);
@@ -94,14 +121,16 @@ if(isset($_GET['lien'])){
               $date = $post['date'];
               $lien = $post['lien'];
               $contenu_post = $post['contenu_post'];
-              ?>
+          ?>
           <section class="jumbotron" id='5'>
           <?php
             echo "<div id='pseudo'>$pseudo a partagé : </div>";
             echo "<div id='date'>$date</div>";
             echo "<div id='post'><a href='$lien'>$lien</a></div>";
             echo "<div id='description'>$contenu_post</div><br>";
-            echo "<div id='votes'> 3 upvotes - 2 downvotes </div><br>";
+            $nbe_like_post = nbe_like_post($id_post);
+            $nbe_dislike_post = nbe_dislike_post($id_post);
+            echo "<div id='votes'> $nbe_like_post upvote(s) - $nbe_dislike_post downvote(s) </div><br>";
             echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
           ?>
           </section>

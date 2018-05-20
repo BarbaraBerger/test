@@ -1,12 +1,15 @@
-<?php
-session_start();
+<?php session_start();
+
 include("fonctions.php");
-if (!isset($_SESSION['mail'])) { 
+
+if (!isset($_SESSION['mail'])) {
   header('Location: login.php');
 }
+
 $id_comm=$_GET['id'];
 $id_post = id_post_com($id_comm);
 $contenu_com=id_com($id_comm);
+
 if(isset($_POST['modification'])){
   $contenu_comm=$_POST['modification'];
   modifie_contenu_comm($contenu_comm,$id_comm);

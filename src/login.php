@@ -12,11 +12,12 @@ if( isset($_GET['password']) && isset($_GET['mail'])){
     $_SESSION['id_user'] = id_user($_SESSION['mail']);
     $_SESSION['pseudo'] = pseudo($_SESSION['mail']);
     header('Location: accueil.php');
-  } else {
-      if (isset($_GET['password']) && isset($_GET['mail'])){
-        $msg = "Adresse mail et/ou mot de passe incorrect(s)";
-      }
+  }
+  else {
+    if (isset($_GET['password']) && isset($_GET['mail'])){
+      $msg = "Adresse mail et/ou mot de passe incorrect(s)";
     }
+  }
 }
 ?>
 

@@ -1,17 +1,25 @@
-<?php
-session_start();
+<?php session_start();
+
 include("fonctions.php");
+
 if (!isset($_SESSION['mail'])) {
   header('Location: login.php');
 }
+
 $id_post=$_GET['id'];
-if(isset($_POST['modification'])){
-  $contenu_post=$_POST['modification'];
+$lien=lien_id($id_post);
+$description=description_id($id_post);
+
+if(isset($_POST['modificationdes'])){
+  if (isset($_POST['modificationlien'])){
+    $lien=$_POST['modificationlien'];
+    modifie_contenu_lien($lien,$id_post);
+  }
+  $contenu_post=$_POST['modificationdes'];
   modifie_contenu_post($contenu_post,$id_post);
   header('Location:post.php?id='.$id_post);
 }
-$lien=lien_id($id_post);
-$description=description_id($id_post);
+
 ?>
 
 <html>
@@ -32,7 +40,8 @@ $description=description_id($id_post);
       ?>
       <br> <br>
       <form method="post">
-        <input type="text" class="form-control" id="modification" name='modification' placeholder="Entrez la nouvelle description pour votre lien" required/><br>
+        <input type="url" class="form-control" id="modification" name='modificationlien' placeholder="Entrez la nouvelle description pour votre lien" required/><br>
+        <input type="text" class="form-control" id="modification" name='modificationdes' placeholder="Entrez la nouvelle description pour votre lien" required/><br>
         <center><input type="submit" class="btn btn-primary" value="Enregistrer modification" /></center>
       </form>
     </div>

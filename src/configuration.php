@@ -9,5 +9,4 @@ $GLOBALS['DB_name'] = 'edewazieres';
 // Configuration du titre
 $GLOBALS['blogTitle'] = 'Pain au chocolat';
 
-
 ?>
