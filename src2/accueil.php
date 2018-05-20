@@ -84,7 +84,7 @@ if(isset($_GET['lien'])){
         <section class="col-6">
           <header>
             <center>
-              <h2 class="title"> <span class="badge"> Liens les plus populaires : </span> </h2>
+              <h2 class="title"> <span class="badge"> Liens les plus commentés : </span> </h2>
             </center>
           </header>
           <div class="border-bottom border-dark"> </div> <br>
@@ -109,6 +109,38 @@ if(isset($_GET['lien'])){
             ?>
           </section>
           <?php } ?>
+
+
+
+<header>
+            <center>
+              <h2 class="title"> <span class="badge"> Liens avec le plus de votes : </span> </h2>
+            </center>
+          </header>
+          <div class="border-bottom border-dark"> </div> <br>
+          <?php
+            $posts=affiche_post_plus_vote();////
+            foreach ($posts as $post){
+              
+              $id_post = $post['id_post'];
+	      $id_user = id_user_post($id_post);
+              $pseudo = pseudo_id($id_user);
+              $date = date_post($id_post);
+              $lien = lien_post($id_post);
+              $contenu_post = contenu_post($id_post);
+          ?>
+          <section class="jumbotron" id='5'>
+            <?php echo "<div id='pseudo'>$pseudo a partagé : </div>";
+              echo "<div id='date'>$date</div>";
+              echo "<div id='post'><a href='$lien'>$lien</a></div>";
+              echo "<div id='description'>$contenu_post</div><br>";
+              echo "<div id='votes'> 3 upvotes - 2 downvotes </div><br>";
+              echo "<div style='float: right'><a href='post.php?id=$id_post'> Voir le post </a></div>";
+            ?>
+          </section>
+          <?php } ?>
+
+
         </section>
       </section>
     </div>

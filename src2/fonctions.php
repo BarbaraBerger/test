@@ -401,6 +401,19 @@ function contenu_post($id){
   return $a['contenu_post'];
 }
 
+// Compte le nombre de votes par post et retourne les posts classés par ordre de nombre de posts desc
+
+function affiche_post_plus_vote(){
+  $con = connection();
+  $stmt = mysqli_query($con, "SELECT id_post,COUNT(*) FROM vote_post GROUP BY id_post ORDER BY COUNT(*) DESC");
+  $assoc=mysqli_fetch_all($stmt, MYSQLI_ASSOC);
+  mysqli_free_result($stmt);
+  mysqli_close($con);
+  return $assoc;
+}
+
+
+
 // // Donne le nombre de likes sur un post
 // function nbe_like($id_post){
 //   $con=connection();
