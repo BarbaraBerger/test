@@ -28,6 +28,23 @@ function login($mail,$mdp) {
   return 0;
 }
 
+// Verifie que cet utilisateur n'existe pas déjà
+function verificationUtilisateur($pseudo) {
+  $con = connection();
+  $q = mysqli_query($con,"SELECT * FROM utilisateurs");
+  while($tab = mysqli_fetch_assoc($q)){
+    if($pseudo == $tab['pseudo']){
+      mysqli_free_result($q);
+      mysqli_close($con);
+      return 0;
+    }
+  }
+  mysqli_free_result($q);
+  mysqli_close($con);
+  return 1;
+}
+
+
 // Ajout d'un utilisateur à la table utilisateurs
 function ajoutUtilisateur($pseudo,$mail,$mdp) {
   $con = connection();

@@ -7,7 +7,8 @@ $pseudo=$_GET['pseudo'];
 $mail=$_GET['mail'];
 $mdp=$_GET['mdp'];
 
-if(ajoutUtilisateur($pseudo,$mail,$mdp)){
+if(verificationUtilisateur($pseudo)){
+ if(ajoutUtilisateur($pseudo,$mail,$mdp)){
   if(isset($mail) && isset($mdp)){
     if(login($mail,$mdp)){
       $_SESSION['mdp'] = $mdp;
@@ -17,13 +18,15 @@ if(ajoutUtilisateur($pseudo,$mail,$mdp)){
       $_SESSION['id_user'] = id_user($_SESSION['mail']);
       $_SESSION['pseudo'] = $pseudo;
       header('Location: accueil.php');
+      }
     }
   }
 } else {
     if (isset($pseudo) && isset($mail) && isset ($mdp)){
-      $msg = "Veuillez rentrer un identifiant valide (au moins 4 caractères) et un mot de passe valide (au moins 6 caractères)";
+      $msg = "Veuillez rentrer un identifiant valide (au moins 4 caractères) et un mot de passe valide (au moins 6 caractères) ou pseudo déjà utilisé";
     }
   }
+
 ?>
 
 <html>
