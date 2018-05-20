@@ -7,7 +7,7 @@ $pseudo=$_GET['pseudo'];
 $mail=$_GET['mail'];
 $mdp=$_GET['mdp'];
 
-if(verificationUtilisateur($pseudo)){
+if(verificationUtilisateur($pseudo,$mail)){
  if(ajoutUtilisateur($pseudo,$mail,$mdp)){
   if(isset($mail) && isset($mdp)){
     if(login($mail,$mdp)){
@@ -23,7 +23,7 @@ if(verificationUtilisateur($pseudo)){
   }
 } else {
     if (isset($pseudo) && isset($mail) && isset ($mdp)){
-      $msg = "Veuillez rentrer un identifiant valide (au moins 4 caractères) et un mot de passe valide (au moins 6 caractères) ou pseudo déjà utilisé";
+      $msg = "Veuillez rentrer un identifiant valide (au moins 4 caractères) et un mot de passe valide (au moins 6 caractères) ou pseudo ou mail déjà utilisé";
     }
   }
 
